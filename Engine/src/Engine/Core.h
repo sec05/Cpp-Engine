@@ -1,6 +1,6 @@
 #pragma once
 #ifdef ES_PLATFORM_WINDOWS
-	#ifdef ES_BUILD_DLL
+	#ifdef ES_BUILD_DLL //checks if the dll is being imported or exported
 		#define ES_API _declspec(dllexport)
 	#else 
 		#define ES_API _declspec(dllimport)

@@ -6,10 +6,10 @@ void main(int argc, char** argv) {
 	ES_CORE_WARN("Initialized the log!");
 	ES_INFO("Initialized the log!");
 	int a = 5;
-	ES_INFO("Hi! Var={0}", a);
+	ES_CRITICAL("Hi! Var={0}", a);
 	auto app = Engine::CreateApplication();
-	app->Run();
+	app->Run();//runs an infinite window that is allocated on the heap
 	delete app;
 
 }
-#endif // ES_PLATFORM_WINDOWS
+#endif 
