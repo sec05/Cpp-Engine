@@ -1,9 +1,8 @@
 #pragma once
 
 #include "Engine/Core.h"
+#include "espch.h"
 
-#include <string>
-#include <functional>
 
 namespace Engine {
 	//currently events block meaning it must immediately dealt with 

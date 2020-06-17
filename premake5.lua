@@ -1,106 +1,103 @@
 workspace "Engine"
- architecture "x64"
+	architecture "x64"
+	configurations
+	{
+		"Debug",
+		"Release",
+		"Dist"
+	}
 
- configurations
- {
-  "Debug",
-  "Release",
-  "Dist"
- }
+outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
- outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+-- Include directories relative to root folder (solution directory)
+IncludeDir = {}
+IncludeDir["GLFW"] = "Engine/vendor/GLFW/include"
 
- project "Engine"
- location "Engine"
- kind "SharedLib"
- language "C++"
+include "Engine/vendor/GLFW"
 
- targetdir ("bin/" .. outputdir .. "/%{prj.name}")
- objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+project "Engine"
+	location "Engine"
+	kind "SharedLib"
+	language "C++"
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+	pchheader "espch.h"
+	pchsource "Engine/src/espch.cpp"
+	files
+	{
+		"%{prj.name}/src/**.h",
+		"%{prj.name}/src/**.cpp"
+	}
+	includedirs
+	{
+		"%{prj.name}/src",
+		
+		"%{prj.name}/vendor/spdlog/include",
+		"%{IncludeDir.GLFW}"
+	}
 
- files
- {
-  "%{prj.name}/src/**.h",
-  "%{prj.name}/src/**.cpp"
- }
+	links 
+	{ 
+		"GLFW",
+		"opengl32.lib"
+	}
 
- includedirs
- {
-   "%{prj.name}/src",
-  "%{prj.name}/vendor/spdlog/include"
- }
-
- filter "system:windows"
-  cppdialect "C++17"
-  staticruntime "On"
-  systemversion "latest"
-
-  defines
-  {
-   "ES_PLATFORM_WINDOWS",
-   "ES_BUILD_DLL"
-  }
-
-  postbuildcommands
-  {
-   ("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
-  }
-
- filter "configurations:Debug"
-  defines "ES_DEBUG"
-  symbols "On"
-
- filter "configurations:Release"
-  defines "ES_RELEASE"
-  optimize "On"
-
- filter "configurations:Dist"
-  defines "ES_DIST"
-  optimize "On"
-
+	filter "system:windows"
+		cppdialect "C++17"
+		staticruntime "On"
+		systemversion "latest"
+		defines
+		{
+			"ES_PLATFORM_WINDOWS",
+			"ES_BUILD_DLL"
+		}
+		postbuildcommands
+		{
+			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
+		}
+	filter "configurations:Debug"
+		defines "ES_DEBUG"
+		symbols "On"
+	filter "configurations:Release"
+		defines "ES_RELEASE"
+		optimize "On"
+	filter "configurations:Dist"
+		defines "ES_DIST"
+		optimize "On"
 project "Sandbox"
- location "Sandbox"
- kind "ConsoleApp"
- language "C++"
-
- targetdir ("bin/" .. outputdir .. "/%{prj.name}")
- objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
-
- files
- {
-  "%{prj.name}/src/**.h",
-  "%{prj.name}/src/**.cpp"
- }
-
- includedirs
- {
-  "Engine/vendor/spdlog/include",
-  "Engine/src"
- }
-
- links
- {
-  "Engine"
- }
-
- filter "system:windows"
-  cppdialect "C++17"
-  staticruntime "On"
-  systemversion "latest"
-
-  defines
-  {
-   "ES_PLATFORM_WINDOWS"
-  }
-
- filter "configurations:Debug"
-  defines "ES_DEBUG"
-  symbols "On"
-
- filter "configurations:Release"
-  defines "ES_RELEASE"
-  optimize "On"
-
- filter "configurations:Dist"
-  defines "ES_DIST"
-  optimize "On"
+	location "Sandbox"
+	kind "ConsoleApp"
+	language "C++"
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+	files
+	{
+		"%{prj.name}/src/**.h",
+		"%{prj.name}/src/**.cpp"
+	}
+	includedirs
+	{
+		"Engine/vendor/spdlog/include",
+		"Engine/src"
+	}
+	links
+	{
+		"Engine"
+	}
+	filter "system:windows"
+		cppdialect "C++17"
+		staticruntime "On"
+		systemversion "latest"
+		defines
+		{
+			"ES_PLATFORM_WINDOWS"
+		}
+	filter "configurations:Debug"
+		defines "ES_DEBUG"
+		symbols "On"
+	filter "configurations:Release"
+		defines "ES_RELEASE"
+		optimize "On"
+	filter "configurations:Dist"
+		defines "ES_DIST"
+		optimize "On"
