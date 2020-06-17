@@ -4,7 +4,7 @@
 
 #include "Engine/Core.h"
 #include "Engine/Events/Event.h"
-
+//abstract window class
 namespace Engine
 {
 	struct WindowProps
@@ -12,7 +12,7 @@ namespace Engine
 		std::string Title;
 		unsigned int Width;
 		unsigned int Height;
-
+		//default parameters
 		WindowProps(const std::string& title = "ES Engine",
 					unsigned int width = 1920,
 					unsigned int height = 1080)
@@ -26,7 +26,7 @@ namespace Engine
 	class ES_API Window
 	{
 	public:
-		using EventCallbackFn = std::function<void(Event&)>;
+		using EventCallbackFn = std::function<void(Event&)>;//for dealing with events
 
 		virtual ~Window(){}
 		

@@ -8,7 +8,7 @@ namespace Engine
 	class WindowsWindow : public Window
 	{
 	public:
-		WindowsWindow(const WindowProps& props);
+		WindowsWindow(const WindowProps& props);//from window class
 		virtual ~WindowsWindow();
 
 		void OnUpdate() override;
@@ -25,7 +25,7 @@ namespace Engine
 		virtual void Shutdown();
 	private:
 		GLFWwindow* m_Window;
-		//can pass struct instead of whole class
+		//can pass struct instead of whole class data
 		struct WindowData
 		{
 			std::string Title;
