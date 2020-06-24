@@ -5,7 +5,7 @@
 
 namespace Engine {
 
-	class  ES_API MouseMovedEvent : public Event //gets new mouse cordinates
+	class  ES_API MouseMovedEvent : public Event //gets new mouse coordinates
 	{
 	public:
 		MouseMovedEvent(float x, float y)
@@ -22,7 +22,7 @@ namespace Engine {
 			return ss.str();
 		}
 		EVENT_CLASS_TYPE(MouseMoved)
-			EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
+		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 	private:
 		float m_MouseX, m_MouseY;
 	};
