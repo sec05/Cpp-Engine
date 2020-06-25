@@ -48,8 +48,7 @@ namespace Engine {
 			return GetCategoryFlags() & category;
 		}
 
-	protected:
-		bool m_Handled = false;
+
 	};
 	
 	
@@ -68,7 +67,7 @@ namespace Engine {
 		bool Dispatch(EventFn<T> func)//takes event and then a function 
 		{
 			if (m_Event.GetEventType() == T::GetStaticType()) {//checks if event matches the type and the dispatches it to the correct class
-				m_Event.m_Handled = func(*(T*)&m_Event);
+				m_Event.Handled = func(*(T*)&m_Event);
 				return true;
 			}
 			return false;
