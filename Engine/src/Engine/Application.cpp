@@ -6,6 +6,9 @@
 namespace Engine {
 
 #define BIND_EVENT_FN(x) std::bind(&Application::x,this, std::placeholders::_1)//this event and the event name
+
+	Application* Application::s_Instance = nullptr;
+
 	double fRand(double fMin, double fMax)
 	{
 		double f = (double)rand() / RAND_MAX;
@@ -13,6 +16,9 @@ namespace Engine {
 	}
 	Application::Application()
 	{
+		ES_CORE_ASSERT(!s_Instance, "Application already exists");
+		s_Instance = this;
+
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
 
@@ -23,10 +29,12 @@ namespace Engine {
 	void Application::PushLayer(Layer* layer)
 	{
 		m_LayerStack.PushLayer(layer);
+		layer->OnAttach();
 	}
 	void Application::PushOverlay(Layer* layer)
 	{
 		m_LayerStack.PushOverlay(layer);
+		layer->OnAttach();
 	}
 	void Application::OnEvent(Event& e)
 	{

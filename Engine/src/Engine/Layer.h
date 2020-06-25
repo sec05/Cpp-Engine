@@ -12,7 +12,7 @@ namespace Engine
 		virtual ~Layer();
 
 		virtual void OnAttach(){}//pushed on layer stack
-		virtual void OnDetch() {}
+		virtual void OnDetach() {}
 		virtual void OnUpdate() {}//every frame
 		virtual void OnEvent(Event& event){}
 
