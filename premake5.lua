@@ -18,6 +18,10 @@ IncludeDir["ImGui"] = "Engine/vendor/imgui"
 include "Engine/vendor/GLFW"
 include "Engine/vendor/Glad"
 include "Engine/vendor/imgui"
+
+startproject "Sandbox"
+
+
 project "Engine"
 	location "Engine"
 	kind "SharedLib"

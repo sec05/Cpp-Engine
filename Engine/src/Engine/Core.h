@@ -18,3 +18,5 @@
 #endif // ES_ENABLE_ASSERTS
 
 #define BIT(x) (1<<x) //creates a bitfield 
+
+#define ES_BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)

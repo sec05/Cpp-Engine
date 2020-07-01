@@ -8,7 +8,7 @@ public:
 
 	void OnUpdate() override
 	{
-		ES_INFO("ExampleLayer::Update");
+		
 	}
 	void OnEvent(Engine::Event& event) override
 	{

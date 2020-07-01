@@ -27,10 +27,10 @@ namespace Engine {
 		float m_MouseX, m_MouseY;
 	};
 
-	class ES_API MouseScolledEvent : public Event//gets scroll cords
+	class ES_API MouseScrolledEvent : public Event//gets scroll cords
 	{
 	public:
-		MouseScolledEvent(float xOffset, float yOffset)
+		MouseScrolledEvent(float xOffset, float yOffset)
 			: m_XOffset(xOffset), m_YOffset(yOffset){}
 
 		inline float GetXOffset() const { return m_XOffset; }
