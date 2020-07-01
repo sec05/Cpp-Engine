@@ -9,6 +9,9 @@
 	#error	Engine only supports windows
 #endif 
 
+#ifdef ES_DEBUG
+#define ES_ENABLE_ASSERTS
+#endif
 #ifdef ES_ENABLE_ASSERTS
 #define ES_ASSERT(x,...){if(!(x)){ES_ERROR("Assertion Failed: {0}", __VA_ARGS__);__debugbreak();}}
 #define ES_CORE_ASSERT(x,...){if(!(x)){ES_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__);__debugbreak();}}

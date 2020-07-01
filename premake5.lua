@@ -1,5 +1,6 @@
 workspace "Engine"
 	architecture "x64"
+
 	configurations
 	{
 		"Debug",
@@ -19,22 +20,24 @@ include "Engine/vendor/GLFW"
 include "Engine/vendor/Glad"
 include "Engine/vendor/imgui"
 
-startproject "Sandbox"
-
-
 project "Engine"
 	location "Engine"
 	kind "SharedLib"
 	language "C++"
+	staticruntime "off"
+
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
 	pchheader "espch.h"
 	pchsource "Engine/src/espch.cpp"
+
 	files
 	{
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp"
 	}
+
 	includedirs
 	{
 		"%{prj.name}/src",
@@ -54,67 +57,81 @@ project "Engine"
 
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
+
 		defines
 		{
 			"ES_PLATFORM_WINDOWS",
 			"ES_BUILD_DLL",
 			"GLFW_INCLUDE_NONE"
 		}
+
 		postbuildcommands
 		{
 			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
 		}
+
 	filter "configurations:Debug"
 		defines "ES_DEBUG"
-		buildoptions "/MDd"
+		runtime "Debug"
 		symbols "On"
+
 	filter "configurations:Release"
 		defines "ES_RELEASE"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"
+
 	filter "configurations:Dist"
 		defines "ES_DIST"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"
+
 project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
+	staticruntime "off"
+
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
 	files
 	{
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp"
 	}
+
 	includedirs
 	{
 		"Engine/vendor/spdlog/include",
 		"Engine/src"
 	}
+
 	links
 	{
 		"Engine"
 	}
+
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
+
 		defines
 		{
 			"ES_PLATFORM_WINDOWS"
 		}
+
 	filter "configurations:Debug"
 		defines "ES_DEBUG"
-		buildoptions "/MDd"
+		runtime "Debug"
 		symbols "On"
+
 	filter "configurations:Release"
 		defines "ES_RELEASE"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"
+
 	filter "configurations:Dist"
 		defines "ES_DIST"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"
