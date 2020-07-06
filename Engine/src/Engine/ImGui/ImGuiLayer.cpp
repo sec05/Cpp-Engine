@@ -5,6 +5,7 @@
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 #include "Engine/Application.h"
+
 namespace Engine
 {
 	ImGuiLayer::ImGuiLayer()
@@ -112,13 +113,14 @@ namespace Engine
 
 		return false; //returns false because want other layers to deal with it no have the event stop at ImGui
 	}
+
 	bool ImGuiLayer::OnMouseMovedEvent(MouseMovedEvent& e)
 	{
 		ImGuiIO& io = ImGui::GetIO();
-		io.MousePos = ImVec2(e.GetX(),e.GetY());
+		io.MousePos = ImVec2(e.GetX(), e.GetY());
 
-		return false; //returns false because want other layers to deal with it no have the event stop at ImGui
-	} 
+		return false;
+	}
 	bool ImGuiLayer::OnMouseScrolledEvent(MouseScrolledEvent& e)
 	{
 		ImGuiIO& io = ImGui::GetIO();

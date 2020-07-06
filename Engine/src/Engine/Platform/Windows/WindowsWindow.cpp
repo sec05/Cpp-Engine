@@ -6,7 +6,7 @@
 #include "Engine/Events/ApplicationEvent.h"
 #include "Engine/Events/MouseEvent.h"
 
-#include <glad/glad.h>
+#include "glad/glad.h"
 namespace Engine
 {
 	static bool s_GLFWInitialized = false;
