@@ -1,4 +1,5 @@
 #include "Engine.h"
+
 class ExampleLayer : public Engine::Layer
 {
 public:
@@ -6,13 +7,25 @@ public:
 		: Layer("Example")
 	{}
 
-	void OnUpdate() override
+	void OnUpdate() override//happens every frame
 	{
-		
+		if (Engine::Input::IsKeyPressed(ES_KEY_TAB))
+		{
+			ES_TRACE("Tab Key Pressed poll");
+		}
+		if (Engine::Input::IsMouseButtonPressed(ES_MOUSE_BUTTON_5))
+			ES_TRACE("Mouse Button 5 was pressed");
 	}
-	void OnEvent(Engine::Event& event) override
+	void OnEvent(Engine::Event& event) override//events happen once 
 	{
-		ES_TRACE("{0}", event);
+		if (event.GetEventType() ==Engine::EventType::KeyPressed)
+		{
+			Engine::KeyPressedEvent& e = (Engine::KeyPressedEvent&)event;
+			ES_TRACE("{0}", (char)e.GetKeyCode());
+			if (e.GetKeyCode() == ES_KEY_TAB)
+				ES_TRACE("Tab was pressed event");
+		}
+		//ES_TRACE("{0}", event);
 	}
 };
 

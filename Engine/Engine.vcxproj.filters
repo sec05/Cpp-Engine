@@ -71,6 +71,8 @@
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="src\espch.h" />
+    <ClInclude Include="src\Engine\MouseButtonCodes.h" />
+    <ClInclude Include="src\Engine\KeyCodes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Application.cpp">

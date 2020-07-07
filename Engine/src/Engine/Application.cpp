@@ -40,7 +40,7 @@ namespace Engine {
 	{
 		EventDispatcher dispatcher(e);//checks if event is a closed event by checking the static type of the template of the event
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClosed));
-		ES_CORE_TRACE("{0}",e);
+		//ES_CORE_TRACE("{0}",e);
 
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
 		{
@@ -60,11 +60,11 @@ namespace Engine {
 				layer->OnUpdate();
 				m_Window->OnUpdate();
 
-				auto [x, y] = Input::GetMousePosition();
-				if (x >= 500)
-				{
-					ES_CORE_TRACE("{0},{1}", x, y);
-				}
+				//auto [x, y] = Input::GetMousePosition();
+				//if (x >= 500)
+				//{
+					//ES_CORE_TRACE("{0},{1}", x, y);
+				//}
 		};
 	}
 	bool Application::OnWindowClosed(WindowCloseEvent& e)

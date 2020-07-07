@@ -167,6 +167,8 @@
     <ClInclude Include="src\Engine\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\Engine\Window.h" />
     <ClInclude Include="src\espch.h" />
+    <ClInclude Include="src\Engine\KeyCodes.h" />
+    <ClInclude Include="src\Engine\MouseButtonCodes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Application.cpp" />
