@@ -4,7 +4,7 @@
 #include "spdlog/fmt/ostr.h"
 
 namespace Engine {
-	class ES_API Log
+	class   Log
 	{
 	public:
 		

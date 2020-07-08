@@ -31,7 +31,7 @@ namespace Engine {
 
 #define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override {return category;}
 
-	class ES_API Event //base event class
+	class   Event //base event class
 	{
 		friend class EventDispatcher;
 

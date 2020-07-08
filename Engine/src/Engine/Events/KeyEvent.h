@@ -5,7 +5,7 @@
 
 namespace Engine
 {
-	class ES_API KeyEvent : public Event //gets and returns the keycode of pressed key
+	class   KeyEvent : public Event //gets and returns the keycode of pressed key
 	{
 	public:
 		inline int GetKeyCode() const { return m_KeyCode; }
@@ -18,7 +18,7 @@ namespace Engine
 		int m_KeyCode;
 	};
 
-	class ES_API KeyPressedEvent : public KeyEvent//gets pressed key and how many times it was repeated
+	class   KeyPressedEvent : public KeyEvent//gets pressed key and how many times it was repeated
 	{
 	public:
 		KeyPressedEvent(int keycode, int repeatCount)
@@ -37,7 +37,7 @@ namespace Engine
 		int m_RepeatCount;
 	};
 
-	class ES_API KeyReleasedEvent : public KeyEvent//gets released key
+	class   KeyReleasedEvent : public KeyEvent//gets released key
 	{
 	public:
 		KeyReleasedEvent(int keycode)
@@ -54,7 +54,7 @@ namespace Engine
 		EVENT_CLASS_TYPE(KeyReleased)
 	};
 
-	class ES_API KeyTypedEvent : public KeyEvent//gets pressed key and how many times it was repeated
+	class   KeyTypedEvent : public KeyEvent//gets pressed key and how many times it was repeated
 	{
 	public:
 		KeyTypedEvent(int keycode)

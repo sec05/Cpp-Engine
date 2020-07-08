@@ -5,7 +5,6 @@ namespace Engine
 {
 	LayerStack::LayerStack()
 	{
-		m_LayerInsert = m_Layers.begin();
 	}
 	LayerStack::~LayerStack()
 	{
@@ -16,7 +15,8 @@ namespace Engine
 
 	void LayerStack::PushLayer(Layer* layer)//first half of the list
 	{
-		m_LayerInsert = m_Layers.emplace(m_LayerInsert, layer);
+		m_Layers.emplace(m_Layers.begin()+m_LayerInsertIndex, layer);
+		m_LayerInsertIndex++;
 	}
 
 	void LayerStack::PushOverlay(Layer* overlay)//second half of thelist
@@ -31,7 +31,7 @@ namespace Engine
 		if (it != m_Layers.end())
 		{
 			m_Layers.erase(it);
-			m_LayerInsert--;
+			m_LayerInsertIndex--;
 		}
 	}
 	void LayerStack::PopOverlay(Layer* overlay)

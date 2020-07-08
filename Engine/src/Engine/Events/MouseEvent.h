@@ -5,7 +5,7 @@
 
 namespace Engine {
 
-	class ES_API MouseMovedEvent : public Event
+	class   MouseMovedEvent : public Event
 	{
 	public:
 		MouseMovedEvent(float x, float y)
@@ -27,7 +27,7 @@ namespace Engine {
 		float m_MouseX, m_MouseY;
 	};
 
-	class ES_API MouseScrolledEvent : public Event//gets scroll cords
+	class   MouseScrolledEvent : public Event//gets scroll cords
 	{
 	public:
 		MouseScrolledEvent(float xOffset, float yOffset)
@@ -51,7 +51,7 @@ namespace Engine {
 	};
 
 
-	class ES_API MouseButtonEvent : public Event //base class for mouse button
+	class   MouseButtonEvent : public Event //base class for mouse button
 	{
 	public:
 		inline int GetMouseButton() const { return m_Button; }
@@ -80,7 +80,7 @@ namespace Engine {
 		EVENT_CLASS_TYPE(MouseButtonPressed)
 	};
 
-	class ES_API  MouseButtonReleasedEvent : public MouseButtonEvent//just says which button was released
+	class    MouseButtonReleasedEvent : public MouseButtonEvent//just says which button was released
 	{
 	public:
 		MouseButtonReleasedEvent(int button)

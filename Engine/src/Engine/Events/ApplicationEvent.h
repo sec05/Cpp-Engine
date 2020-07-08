@@ -5,7 +5,7 @@
 
 namespace Engine
 {
-	class ES_API WindowResizeEvent : public Event//gets new dimensions of window
+	class   WindowResizeEvent : public Event//gets new dimensions of window
 	{
 	public:
 		WindowResizeEvent(unsigned int width, unsigned int height)
@@ -28,7 +28,7 @@ namespace Engine
 		unsigned int m_Width, m_Height;
 	};
 
-	class ES_API WindowCloseEvent : public Event//just says the window closed
+	class   WindowCloseEvent : public Event//just says the window closed
 	{
 	public:
 		WindowCloseEvent() {}
@@ -39,7 +39,7 @@ namespace Engine
 
 
 	//next 3 have no implementation as of 6-16-20
-	class ES_API AppTickEvent : public Event
+	class   AppTickEvent : public Event
 	{
 	public:
 		AppTickEvent() {}
@@ -47,7 +47,7 @@ namespace Engine
 		EVENT_CLASS_TYPE(AppTick)
 			EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
-	class ES_API AppUpdateEvent : public Event
+	class   AppUpdateEvent : public Event
 	{
 	public:
 		AppUpdateEvent() {}
@@ -56,7 +56,7 @@ namespace Engine
 			EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class ES_API AppRenderEvent : public Event
+	class   AppRenderEvent : public Event
 	{
 	public:
 		AppRenderEvent() {}

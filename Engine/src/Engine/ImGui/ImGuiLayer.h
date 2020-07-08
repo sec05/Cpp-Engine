@@ -6,26 +6,18 @@
 #include "Engine/Events/ApplicationEvent.h"
 namespace Engine
 {
-	class ES_API ImGuiLayer :public Layer
+	class   ImGuiLayer :public Layer
 	{
 	public:
 		ImGuiLayer();
 		~ImGuiLayer();
 
-		void OnAttach();
-		void OnDetach();
-		void OnUpdate();
-		void OnEvent(Event& event);
-	private:
-		bool OnMouseButtonPressedEvent(MouseButtonPressedEvent& e);
-		bool OnMouseButtonReleasedEvent(MouseButtonReleasedEvent& e);
-		bool OnMouseMovedEvent(MouseMovedEvent& e);
-		bool OnMouseScrolledEvent(MouseScrolledEvent& e);
-		bool OnKeyPressedEvent(KeyPressedEvent& e);
-		bool OnKeyReleasedEvent(KeyReleasedEvent& e);
-		bool OnKeyTypedEvent(KeyTypedEvent& e);
-		bool OnWindowResizedEvent(WindowResizeEvent& e);
-
+		virtual void OnAttach() override;
+		virtual void OnDetach() override;
+		virtual void OnImGuiRender() override;//where we draw stuff
+		
+		void Begin();//we want layers to be able to render there own imgui controls
+		void End();
 	private:
 		float m_Time = 0.0f;
 	};

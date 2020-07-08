@@ -5,7 +5,7 @@
 
 namespace Engine
 {
-	class ES_API Layer
+	class   Layer
 	{
 	public:
 		Layer(const std::string& name = "Layer");
@@ -14,6 +14,7 @@ namespace Engine
 		virtual void OnAttach(){}//pushed on layer stack
 		virtual void OnDetach() {}
 		virtual void OnUpdate() {}//every frame
+		virtual void OnImGuiRender() {}
 		virtual void OnEvent(Event& event){}
 
 		inline const std::string& GetName() const { return m_DebugName; }

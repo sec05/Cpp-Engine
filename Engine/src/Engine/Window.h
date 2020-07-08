@@ -14,8 +14,8 @@ namespace Engine
 		unsigned int Height;
 		//default parameters
 		WindowProps(const std::string& title = "ES Engine",
-					unsigned int width = 1280,
-					unsigned int height = 720)
+					unsigned int width = 1920,
+					unsigned int height = 1080)
 			: Title(title), Width(width), Height(height)
 		{}
 
@@ -23,7 +23,7 @@ namespace Engine
 
 	//Interface for a desktop system based window
 
-	class ES_API Window
+	class   Window
 	{
 	public:
 		using EventCallbackFn = std::function<void(Event&)>;//for dealing with events
