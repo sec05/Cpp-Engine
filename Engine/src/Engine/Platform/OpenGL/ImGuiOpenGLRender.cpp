@@ -55,7 +55,7 @@
 
 #include "espch.h"
 #include "imgui.h"
-#include "ImGuiOpenGLRender.h"
+#include "Engine/Platform/OpenGL/ImGuiOpenGLRender.h"
 #include "glad/glad.h"
 #include <stdio.h>
 #if defined(_MSC_VER) && _MSC_VER <= 1500 // MSVC 2008 or earlier
@@ -72,13 +72,6 @@
 #if (defined(__APPLE__) && TARGET_OS_IOS) || (defined(__ANDROID__)) || (defined(__EMSCRIPTEN__))
 #define USE_GL_ES3
 #endif
-
-
-// Regular OpenGL
-// About OpenGL function loaders: modern OpenGL doesn't have a standard header file and requires individual function pointers to be loaded manually.
-// Helper libraries are often used for this purpose! Here we are supporting a few common ones: gl3w, glew, glad.
-// You may use another loader/header of your choice (glext, glLoadGen, etc.), or chose to manually implement your own.
-
 
 // OpenGL Data
 static char         g_GlslVersionString[32] = "";
@@ -185,10 +178,10 @@ void    ImGui_ImplOpenGL3_RenderDrawData(ImDrawData* draw_data)
     float B = draw_data->DisplayPos.y + draw_data->DisplaySize.y;
     const float ortho_projection[4][4] =
     {
-        { 2.0f/(R-L),   0.0f,         0.0f,   0.0f },
-        { 0.0f,         2.0f/(T-B),   0.0f,   0.0f },
+        { 2.0f / (R - L),   0.0f,         0.0f,   0.0f },
+        { 0.0f,         2.0f / (T - B),   0.0f,   0.0f },
         { 0.0f,         0.0f,        -1.0f,   0.0f },
-        { (R+L)/(L-R),  (T+B)/(B-T),  0.0f,   1.0f },
+        { (R + L) / (L - R),  (T + B) / (B - T),  0.0f,   1.0f },
     };
     glUseProgram(g_ShaderHandle);
     glUniform1i(g_AttribLocationTex, 0);

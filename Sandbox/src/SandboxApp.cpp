@@ -40,7 +40,7 @@ public:
 			if (e.GetKeyCode() == ES_KEY_TAB)
 				ES_TRACE("Tab was pressed event");
 		}
-		//ES_TRACE("{0}", event);
+		ES_TRACE("{0}", event);
 	}
 };
 

@@ -14,8 +14,8 @@ namespace Engine
 		unsigned int Height;
 		//default parameters
 		WindowProps(const std::string& title = "ES Engine",
-					unsigned int width = 1920,
-					unsigned int height = 1080)
+					unsigned int width = 1280,
+					unsigned int height = 720)
 			: Title(title), Width(width), Height(height)
 		{}
 

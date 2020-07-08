@@ -56,9 +56,13 @@ namespace Engine {
 		while (m_Running)
 		{
 
+			glClearColor(1, 1 , 0, 1);
+			glClear(GL_COLOR_BUFFER_BIT);
+
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
-				m_Window->OnUpdate();
+				
+			m_Window->OnUpdate();
 
 				//auto [x, y] = Input::GetMousePosition();
 				//if (x >= 500)
