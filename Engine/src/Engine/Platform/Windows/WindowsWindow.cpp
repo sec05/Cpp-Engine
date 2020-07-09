@@ -1,12 +1,11 @@
 #include "espch.h"
 #include "WindowsWindow.h"
-
 #include "Engine/Events/Event.h"
 #include "Engine/Events/KeyEvent.h"
 #include "Engine/Events/ApplicationEvent.h"
 #include "Engine/Events/MouseEvent.h"
+#include "Engine/Platform/OpenGL/OpenGLContext.h"
 
-#include "glad/glad.h"
 namespace Engine
 {
 	static bool s_GLFWInitialized = false;
@@ -37,7 +36,9 @@ namespace Engine
 		m_Data.Width = props.Width;
 		m_Data.Height = props.Height;
 
+
 		ES_CORE_INFO("Creating window {0} ({1},{2})", props.Title, props.Width, props.Height);
+		
 
 		if (!s_GLFWInitialized)//if glfw fails
 		{
@@ -48,9 +49,12 @@ namespace Engine
 		}
 
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);//makes the window via glfw
-		glfwMakeContextCurrent(m_Window);
-		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		ES_CORE_ASSERT(status, "Failed to initialize Glad!");
+		
+		m_Context = new OpenGLContext(m_Window);
+		m_Context->Init();
+		
+		
+		
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
 
@@ -151,7 +155,8 @@ namespace Engine
 	void WindowsWindow::OnUpdate()
 	{
 		glfwPollEvents();
-		glfwSwapBuffers(m_Window);//waits amount of windows before swapping buffers
+		m_Context->SwapBuffers();
+		//glfwSwapBuffers(m_Window);//waits amount of windows before swapping buffers
 	}
 	void WindowsWindow::SetVSync(bool enabled)
 	{
