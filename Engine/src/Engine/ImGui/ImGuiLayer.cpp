@@ -1,18 +1,17 @@
 #include "espch.h"
 #include "ImGuiLayer.h"
-
 #include "imgui.h"
 #include "examples/imgui_impl_glfw.h"
 #include "examples/imgui_impl_opengl3.h"
-
 #include "Engine/Application.h"
 
 // TEMPORARY
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
-namespace Engine {
 
+namespace Engine {
+	
 	ImGuiLayer::ImGuiLayer()
 		: Layer("ImGuiLayer")
 	{
@@ -88,11 +87,12 @@ namespace Engine {
 			glfwMakeContextCurrent(backup_current_contest);
 		}
 	}
-
+	
 	void ImGuiLayer::OnImGuiRender()//where you write what to render
 	{
 		static bool show = true;
 		ImGui::ShowDemoWindow(&show);
+		
 	}
 
 	

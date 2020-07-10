@@ -4,7 +4,7 @@
 #include "Window.h"
 #include "Engine/Events/ApplicationEvent.h"
 #include "Engine/LayerStack.h"
-
+#include "Engine/Renderer/Shader.h"
 #include "Engine/ImGui/ImGuiLayer.h"
 namespace Engine {
 	class   Application
@@ -27,6 +27,7 @@ namespace Engine {
 		bool m_Running = true;
 		LayerStack m_LayerStack;
 		unsigned int m_VertexArray, m_VertexBuffer, m_IndexBuffer;
+		std::unique_ptr<Shader> m_Shader;
 	private:
 		static Application* s_Instance;
 	};

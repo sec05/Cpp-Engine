@@ -48,7 +48,7 @@ namespace Engine
 			s_GLFWInitialized = true;
 		}
 
-		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);//makes the window via glfw
+		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);//makes the window via glfw glfwGetPrimaryMonitor() makes it fullscreen
 		
 		m_Context = new OpenGLContext(m_Window);
 		m_Context->Init();
