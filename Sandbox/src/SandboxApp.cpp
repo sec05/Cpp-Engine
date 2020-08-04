@@ -4,6 +4,7 @@
 #include <glm/vec4.hpp> // glm::vec4
 #include <glm/mat4x4.hpp> // glm::mat4
 #include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
+
 glm::mat4 camera(float Translate, glm::vec2 const& Rotate)
 {
 	glm::mat4 Projection = glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 100.f);
@@ -45,16 +46,16 @@ public:
 	}
 	virtual void OnImGuiRender() override//gets called in application.cpp
 	{
-		static bool my_tool_active = true;
+		/*static bool my_tool_active = true;
 		static float my_color = 0.99f;
 		ImGui::Begin("My First Tool", &my_tool_active, ImGuiWindowFlags_MenuBar);
 		if (ImGui::BeginMenuBar())
 		{
 			if (ImGui::BeginMenu("File"))
 			{
-				if (ImGui::MenuItem("Open..", "Ctrl+O")) { /* Do stuff */ }
-				if (ImGui::MenuItem("Save", "Ctrl+S")) { /* Do stuff */ }
-				if (ImGui::MenuItem("Close", "Ctrl+W")) { my_tool_active = false; }
+				if (ImGui::MenuItem("Open..", "Ctrl+O")) { /* Do stuff */ //}
+		/*		if (ImGui::MenuItem("Save", "Ctrl+S")) { /* Do stuff */// }
+		/*		if (ImGui::MenuItem("Close", "Ctrl+W")) { my_tool_active = false; }
 				ImGui::EndMenu();
 			}
 			ImGui::EndMenuBar();
@@ -73,8 +74,11 @@ public:
 		for (int n = 0; n < 50; n++)
 			ImGui::Text("%04d: Some text", n);
 		ImGui::EndChild();
-		ImGui::End();
+		ImGui::End();*/
+
+		
 	}
+
 };
 
 

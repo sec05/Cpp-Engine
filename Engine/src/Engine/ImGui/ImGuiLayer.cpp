@@ -1,4 +1,4 @@
-#include "espch.h"
+﻿#include "espch.h"
 #include "ImGuiLayer.h"
 #include "imgui.h"
 #include "examples/imgui_impl_glfw.h"
@@ -8,7 +8,7 @@
 // TEMPORARY
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
-
+#include <GLFW/glfw3.h>
 
 namespace Engine {
 	
@@ -89,6 +89,7 @@ namespace Engine {
 	}
 	
 	void ImGuiLayer::OnImGuiRender()//where you write what to render
+	
 	{
 		static bool show = true;
 		ImGui::ShowDemoWindow(&show);
