@@ -3,6 +3,7 @@
 #include <glad/glad.h>
 #include <random>
 #include "Input.h"
+#include "Engine/Renderer/Renderer.h"
 namespace Engine {
 
 #define BIND_EVENT_FN(x) std::bind(&Application::x,this, std::placeholders::_1)//this event and the event name
@@ -66,10 +67,10 @@ namespace Engine {
 		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
 		m_SquareVA.reset(VertexArray::Create());
 		float SQvertices[3 * 4] = {//screen right now is -1 to 1 because there is no projection matrix
-			-0.5f, -0.5f, 0.0f, 
-			 0.5f, -0.5f, 0.0f, 
-			 0.5f, 0.5f, 0.0f,
-			-0.5f, 0.5f, 0.0f,
+			-0.75f, -0.75f, 0.0f,
+			 0.75f, -0.75f, 0.0f,
+			 0.75f,  0.75f, 0.0f,
+			-0.75f,  0.75f, 0.0f
 
 		};
 		std::shared_ptr<VertexBuffer> SquareVB; 
@@ -78,7 +79,7 @@ namespace Engine {
 			{ShaderDataType::Float3, "a_Position"},
 			});
 		m_SquareVA->AddVertexBuffer(SquareVB);
-		uint32_t squareIndicies[6] = { 0,1,2,2,3,0 };
+		uint32_t squareIndicies[6] = { 0,1,2,2,3,0 };//draws 2 triangles so 0,1,2 then 2,3,0 for the different points
 		std::shared_ptr<IndexBuffer> SquareIB;
 		SquareIB.reset(IndexBuffer::Create(squareIndicies, sizeof(squareIndicies) / sizeof(uint32_t)));
 		m_SquareVA->SetIndexBuffer(SquareIB);
@@ -182,16 +183,15 @@ namespace Engine {
 		while (m_Running)
 		{
 
-			glClearColor(0.1f, 0.1f , 0.1f, 1);
-			glClear(GL_COLOR_BUFFER_BIT);
-			m_SquareVA->Bind();
-			m_blueShader->Bind();
-			glDrawElements(GL_TRIANGLES, m_SquareVA->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 			
-
+			RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
+			RenderCommand::Clear();
+			Renderer::BeginScene();
+			m_blueShader->Bind();
+			Renderer::Submit(m_SquareVA);
 			m_Shader->Bind();
-			m_VertexArray->Bind();
-			glDrawElements(GL_TRIANGLES, m_IndexBuffer->GetCount() , GL_UNSIGNED_INT, nullptr);
+			Renderer::Submit(m_VertexArray);
+			Renderer::EndScene();
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
 				

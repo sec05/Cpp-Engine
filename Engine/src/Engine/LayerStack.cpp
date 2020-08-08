@@ -15,7 +15,7 @@ namespace Engine
 
 	void LayerStack::PushLayer(Layer* layer)//first half of the list
 	{
-		m_Layers.emplace(m_Layers.begin()+m_LayerInsertIndex, layer);
+		m_Layers.emplace(m_Layers.begin() + m_LayerInsertIndex, layer);
 		m_LayerInsertIndex++;
 	}
 
@@ -40,7 +40,7 @@ namespace Engine
 		if (it != m_Layers.end())
 		{
 			m_Layers.erase(it);
-			
+
 		}
 	}
 }

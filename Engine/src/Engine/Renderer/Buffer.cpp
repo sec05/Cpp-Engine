@@ -8,8 +8,8 @@ namespace Engine
 	{
 		switch (Renderer::GetAPI())
 		{
-		case RendererAPI::None: ES_CORE_ASSERT(false, "RendererAPI::None is not currently supported!"); return nullptr;
-		case RendererAPI::OpenGL: return new OpenGLVertexBuffer(verticies, size);
+		case RendererAPI::API::None: ES_CORE_ASSERT(false, "RendererAPI::None is not currently supported!"); return nullptr;
+		case RendererAPI::API::OpenGL: return new OpenGLVertexBuffer(verticies, size);
 		}
 		ES_CORE_ASSERT(false, "Unknown RendererAPI!");
 		return nullptr;
@@ -18,8 +18,8 @@ namespace Engine
 	{
 		switch (Renderer::GetAPI())
 		{
-		case RendererAPI::None: ES_CORE_ASSERT(false, "RendererAPI::None is not currently supported!"); return nullptr;
-		case RendererAPI::OpenGL: return new OpenGLIndexBuffer(indicies, count);
+		case RendererAPI::API::None: ES_CORE_ASSERT(false, "RendererAPI::None is not currently supported!"); return nullptr;
+		case RendererAPI::API::OpenGL: return new OpenGLIndexBuffer(indicies, count);
 		}
 		ES_CORE_ASSERT(false, "Unknown RendererAPI!");
 		return nullptr;
