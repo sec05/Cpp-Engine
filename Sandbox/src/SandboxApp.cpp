@@ -5,66 +5,172 @@ class ExampleLayer : public Engine::Layer
 {
 public:
 	ExampleLayer()
-		: Layer("Example")
+		: Layer("Example"), m_Camera(-1.6, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f),m_CameraRotation(0.0f)
 	{
+		m_VertexArray.reset(Engine::VertexArray::Create());
+		float vertices[3 * 7] = {//screen right now is -1 to 1 because there is no projection matrix
+			-0.5f, -0.5f, 0.0f, 0.8f, 0.2f, 0.8f, 1.0f,
+			 0.5f, -0.5f, 0.0f, 0.2f, 0.3f, 0.8f, 1.0f,
+			 0.0f,  0.5f, 0.0f, 0.9f, 0.4f, 0.1f, 1.0f
 
+		};
+		m_VertexBuffer.reset(Engine::VertexBuffer::Create(vertices, sizeof(vertices)));
+		Engine::BufferLayout layout = {
+			{Engine::ShaderDataType::Float3, "a_Position"},
+			{Engine::ShaderDataType::Float4, "a_Color"},
+		};
+		m_VertexBuffer->SetLayout(layout);
+		m_VertexArray->AddVertexBuffer(m_VertexBuffer);
+
+		uint32_t indicies[3] = { 0,1,2, };
+		m_IndexBuffer.reset(Engine::IndexBuffer::Create(indicies, sizeof(indicies) / sizeof(uint32_t)));
+		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
+		m_SquareVA.reset(Engine::VertexArray::Create());
+		float SQvertices[3 * 4] = {//screen right now is -1 to 1 because there is no projection matrix
+			-0.75f, -0.75f, 0.0f,
+			 0.75f, -0.75f, 0.0f,
+			 0.75f,  0.75f, 0.0f,
+			-0.75f,  0.75f, 0.0f
+
+		};
+		std::shared_ptr<Engine::VertexBuffer> SquareVB;
+		SquareVB.reset(Engine::VertexBuffer::Create(SQvertices, sizeof(SQvertices)));
+		SquareVB->SetLayout({
+			{Engine::ShaderDataType::Float3, "a_Position"},
+			});
+		m_SquareVA->AddVertexBuffer(SquareVB);
+		uint32_t squareIndicies[6] = { 0,1,2,2,3,0 };//draws 2 triangles so 0,1,2 then 2,3,0 for the different points
+		std::shared_ptr<Engine::IndexBuffer> SquareIB;
+		SquareIB.reset(Engine::IndexBuffer::Create(squareIndicies, sizeof(squareIndicies) / sizeof(uint32_t)));
+		m_SquareVA->SetIndexBuffer(SquareIB);
+		std::string vertexSrc = R"(
+			#version 330 core
+			
+			layout(location = 0) in vec3 a_Position;
+			layout(location =1) in vec4 a_Color;
+
+			uniform mat4 u_ViewProjection;
+
+			out vec3 v_Position;
+			out vec4 v_Color;
+			void main()
+			{
+				v_Position = a_Position;
+				v_Color = a_Color;
+				gl_Position=u_ViewProjection * vec4(a_Position,1.0);
+			} 
+			
+
+
+			)";
+		std::string fragmentSrc = R"(
+			#version 330 core
+			
+			layout(location = 0) out vec4 color;
+			in vec3 v_Position;	
+			in vec4 v_Color;	
+			void main()
+			{
+				
+				color = vec4(v_Position*2+0.75,1.0);
+				color = v_Color;
+			} 
+			
+
+
+			)";
+
+		m_Shader.reset(new Engine::Shader(vertexSrc, fragmentSrc));
+		std::string vertexSrc2 = R"(
+			#version 330 core
+			
+			layout(location = 0) in vec3 a_Position;
+			uniform mat4 u_ViewProjection;
+			out vec3 v_Position;
+			void main()
+			{
+				v_Position = a_Position;
+				gl_Position=u_ViewProjection*vec4(a_Position,1.0);
+			} 
+			
+
+
+			)";
+		std::string fragmentSrc2 = R"(
+			#version 330 core
+			
+			layout(location = 0) out vec4 color;
+			in vec3 v_Position;	
+			void main()
+			{
+				
+				color = vec4(0.2,0.3,1.0,1.0);
+			} 
+			
+
+
+			)";
+		m_blueShader.reset(new Engine::Shader(vertexSrc2, fragmentSrc2));
 	}
 
 	void OnUpdate() override//happens every frame
 	{
-		if (Engine::Input::IsKeyPressed(ES_KEY_TAB))
+		if (Engine::Input::IsKeyPressed(ES_KEY_W))
 		{
-			ES_TRACE("Tab Key Pressed poll");
+			m_CameraPosition.y += 0.25f;
 		}
-		if (Engine::Input::IsMouseButtonPressed(ES_MOUSE_BUTTON_5))
-			ES_TRACE("Mouse Button 5 was pressed");
+		if (Engine::Input::IsKeyPressed(ES_KEY_A))
+		{
+			m_CameraPosition.x -= 0.25f;
+		}
+		if (Engine::Input::IsKeyPressed(ES_KEY_S))
+		{
+			m_CameraPosition.y -= 0.25f;
+		}
+		if (Engine::Input::IsKeyPressed(ES_KEY_D))
+		{
+			m_CameraPosition.x += 0.25f;
+		}
+		
+	
+		Engine::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
+		Engine::RenderCommand::Clear();
+		m_Camera.SetPosition(m_CameraPosition);
+		m_Camera.SetRotation(m_CameraRotation);
+		Engine::Renderer::BeginScene(m_Camera);
+		Engine::Renderer::Submit(m_blueShader, m_SquareVA);
+		Engine::Renderer::Submit(m_Shader, m_VertexArray);
+		Engine::Renderer::EndScene();
 	}
-	void OnEvent(Engine::Event& event) override//events happen once 
+	void OnEvent(Engine::Event& e) override//events happen once 
 	{
-		if (event.GetEventType() ==Engine::EventType::KeyPressed)
-		{
-			Engine::KeyPressedEvent& e = (Engine::KeyPressedEvent&)event;
-			ES_TRACE("{0}", (char)e.GetKeyCode());
-			if (e.GetKeyCode() == ES_KEY_TAB)
-				ES_TRACE("Tab was pressed event");
-		}
-		//ES_TRACE("{0}", event);
+		Engine::EventDispatcher dispatcher(e);
+		dispatcher.Dispatch<Engine::MouseScrolledEvent>(ES_BIND_EVENT_FN(ExampleLayer::OnMouseScroll));
+
+
+	}
+	bool OnMouseScroll(Engine::Event& e)
+	{
+
+		Engine::MouseScrolledEvent& kp = (Engine::MouseScrolledEvent&)e;
+		m_CameraRotation += kp.GetYOffset() * 4;
+		return false;
 	}
 	virtual void OnImGuiRender() override//gets called in application.cpp
 	{
-		/*static bool my_tool_active = true;
-		static float my_color = 0.99f;
-		ImGui::Begin("My First Tool", &my_tool_active, ImGuiWindowFlags_MenuBar);
-		if (ImGui::BeginMenuBar())
-		{
-			if (ImGui::BeginMenu("File"))
-			{
-				if (ImGui::MenuItem("Open..", "Ctrl+O")) { /* Do stuff */ //}
-		/*		if (ImGui::MenuItem("Save", "Ctrl+S")) { /* Do stuff */// }
-		/*		if (ImGui::MenuItem("Close", "Ctrl+W")) { my_tool_active = false; }
-				ImGui::EndMenu();
-			}
-			ImGui::EndMenuBar();
-		}
-
-		// Edit a color (stored as ~4 floats)
-		ImGui::ColorEdit4("Color", &my_color);
-
-		// Plot some values
-		const float my_values[] = { 0.2f, 56.0f, 1.0f, 0.5f, 0.9f, 2.2f ,0.0f,100.9f};
-		ImGui::PlotLines("Frame Times", my_values, IM_ARRAYSIZE(my_values));
-
-		// Display contents in a scrolling region
-		ImGui::TextColored(ImVec4(1, 1, 0, 1), "Important Stuff");
-		ImGui::BeginChild("Scrolling");
-		for (int n = 0; n < 50; n++)
-			ImGui::Text("%04d: Some text", n);
-		ImGui::EndChild();
-		ImGui::End();*/
-
-		
+	
 	}
+private:
+	std::shared_ptr<Engine::Shader> m_Shader;
+	std::shared_ptr<Engine::Shader> m_blueShader;
+	std::shared_ptr<Engine::VertexArray> m_VertexArray;
+	std::shared_ptr<Engine::VertexBuffer> m_VertexBuffer;
+	std::shared_ptr<Engine::IndexBuffer> m_IndexBuffer;
 
+	std::shared_ptr<Engine::VertexArray> m_SquareVA;
+	Engine::OrthographicCamera m_Camera;
+	glm::vec3 m_CameraPosition;
+	float m_CameraRotation;
 };
 
 
