@@ -4,6 +4,7 @@
 #include <random>
 #include "Input.h"
 #include "Engine/Renderer/Renderer.h"
+#include "KeyCodes.h"
 namespace Engine {
 
 #define BIND_EVENT_FN(x) std::bind(&Application::x,this, std::placeholders::_1)//this event and the event name
@@ -31,12 +32,8 @@ namespace Engine {
 		return 0;
 	}
 
-	double fRand(double fMin, double fMax)
-	{
-		double f = (double)rand() / RAND_MAX;
-		return fMin + f * (fMax - fMin);
-	}
 	Application::Application()
+		:m_Camera(-1.6,1.6f,-0.9f, 0.9f)
 	{
 		ES_CORE_ASSERT(!s_Instance, "Application already exists");
 		s_Instance = this;
@@ -89,13 +86,15 @@ namespace Engine {
 			layout(location = 0) in vec3 a_Position;
 			layout(location =1) in vec4 a_Color;
 
+			uniform mat4 u_ViewProjection;
+
 			out vec3 v_Position;
 			out vec4 v_Color;
 			void main()
 			{
 				v_Position = a_Position;
 				v_Color = a_Color;
-				gl_Position=vec4(a_Position,1.0);
+				gl_Position=u_ViewProjection * vec4(a_Position,1.0);
 			} 
 			
 
@@ -123,12 +122,12 @@ namespace Engine {
 			#version 330 core
 			
 			layout(location = 0) in vec3 a_Position;
-
+			uniform mat4 u_ViewProjection;
 			out vec3 v_Position;
 			void main()
 			{
 				v_Position = a_Position;
-				gl_Position=vec4(a_Position,1.0);
+				gl_Position=u_ViewProjection*vec4(a_Position,1.0);
 			} 
 			
 
@@ -163,12 +162,40 @@ namespace Engine {
 		m_LayerStack.PushOverlay(layer);
 		layer->OnAttach();
 	}
+	float x;
+	float y;
+	float z;
+	float r = 0.0f;
 	void Application::OnEvent(Event& e)
 	{
 		EventDispatcher dispatcher(e);//checks if event is a closed event by checking the static type of the template of the event
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClosed));
-		//ES_CORE_TRACE("{0}",e);
+		if (e.GetEventType() == EventType::MouseScrolled)
+		{
+			MouseScrolledEvent& kp = (MouseScrolledEvent&)e;
+			r += kp.GetYOffset();
 
+		}
+		if (e.GetEventType() == EventType::KeyPressed)
+		{
+			KeyPressedEvent& kp = (KeyPressedEvent&)e;
+			if (kp.GetKeyCode() == ES_KEY_W)
+			{
+				y += 0.1;
+			}
+			if (kp.GetKeyCode() == ES_KEY_A)
+			{
+				x -= 0.1f;
+			}
+			if (kp.GetKeyCode() == ES_KEY_S)
+			{
+				y -= 0.1f;
+			}
+			if (kp.GetKeyCode() == ES_KEY_D)
+			{
+				x += 0.1f;
+			}
+		}
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
 		{
 			(*--it)->OnEvent(e);
@@ -186,11 +213,11 @@ namespace Engine {
 			
 			RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 			RenderCommand::Clear();
-			Renderer::BeginScene();
-			m_blueShader->Bind();
-			Renderer::Submit(m_SquareVA);
-			m_Shader->Bind();
-			Renderer::Submit(m_VertexArray);
+			m_Camera.SetPosition({ x,y,z});
+			m_Camera.SetRotation(r);
+			Renderer::BeginScene(m_Camera);
+			Renderer::Submit(m_blueShader,m_SquareVA);
+			Renderer::Submit(m_Shader,m_VertexArray);
 			Renderer::EndScene();
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
@@ -199,14 +226,9 @@ namespace Engine {
 			for (Layer* layer : m_LayerStack)
 				layer->OnImGuiRender();
 			m_ImGuiLayer->End();
-
+		
 			m_Window->OnUpdate();
-
-				//auto [x, y] = Input::GetMousePosition();
-				//if (x >= 500)
-				//{
-					//ES_CORE_TRACE("{0},{1}", x, y);
-				//}
+			
 		};
 	}
 	bool Application::OnWindowClosed(WindowCloseEvent& e)

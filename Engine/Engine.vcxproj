@@ -140,6 +140,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Engine\Renderer\OrthographicCamera.h" />
     <ClInclude Include="src\Engine\Platform\OpenGL\OpenGLRendererAPI.h" />
     <ClInclude Include="src\Engine\Platform\OpenGL\OpenGLVertexArray.h" />
     <ClInclude Include="src\Engine\Platform\OpenGL\OpenGLBuffer.h" />
@@ -580,6 +581,7 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Engine\Renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\Engine\Platform\OpenGL\OpenGLRendererAPI.cpp" />
     <ClCompile Include="src\Engine\Platform\OpenGL\OpenGLVertexArray.cpp" />
     <ClCompile Include="src\Engine\Platform\OpenGL\OpenGLBuffer.cpp" />

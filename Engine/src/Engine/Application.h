@@ -8,6 +8,7 @@
 #include "Engine/ImGui/ImGuiLayer.h"
 #include "Engine/Renderer/Buffer.h"
 #include "Engine/Renderer/VertexArray.h"
+#include "Engine/Renderer/OrthographicCamera.h"
 namespace Engine {
 	class   Application
 	{
@@ -34,6 +35,7 @@ namespace Engine {
 		std::shared_ptr<IndexBuffer> m_IndexBuffer;
 		
 		std::shared_ptr<VertexArray> m_SquareVA;
+		OrthographicCamera m_Camera;
 	private:
 		static Application* s_Instance;
 	};
