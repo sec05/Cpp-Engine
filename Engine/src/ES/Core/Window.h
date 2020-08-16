@@ -2,7 +2,7 @@
 
 #include "espch.h"
 
-#include "ES/Core.h"
+#include "ES/Core/Core.h"
 #include "ES/Events/Event.h"
 //abstract window class
 namespace ES

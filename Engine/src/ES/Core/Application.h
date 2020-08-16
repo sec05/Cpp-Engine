@@ -1,9 +1,9 @@
 #pragma once
 #include "Core.h"
 #include "ES/Events/Event.h"
-#include "Window.h"
+#include "ES/Core/Window.h"
 #include "ES/Events/ApplicationEvent.h"
-#include "ES/LayerStack.h"
+#include "ES/Core/LayerStack.h"
 #include "Core.h"
 #include "ES/ImGui/ImGuiLayer.h"
 #include "ES/Core/Timestep.h"

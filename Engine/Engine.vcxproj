@@ -141,21 +141,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Engine.h" />
-    <ClInclude Include="src\ES\Application.h" />
-    <ClInclude Include="src\ES\Core.h" />
+    <ClInclude Include="src\ES\Core\Application.h" />
+    <ClInclude Include="src\ES\Core\Core.h" />
+    <ClInclude Include="src\ES\Core\SystemInformation.h" />
     <ClInclude Include="src\ES\Core\Timestep.h" />
-    <ClInclude Include="src\ES\EntryPoint.h" />
+    <ClInclude Include="src\ES\Core\EntryPoint.h" />
     <ClInclude Include="src\ES\Events\ApplicationEvent.h" />
     <ClInclude Include="src\ES\Events\Event.h" />
     <ClInclude Include="src\ES\Events\KeyEvent.h" />
     <ClInclude Include="src\ES\Events\MouseEvent.h" />
     <ClInclude Include="src\ES\ImGui\ImGuiLayer.h" />
-    <ClInclude Include="src\ES\Input.h" />
-    <ClInclude Include="src\ES\KeyCodes.h" />
-    <ClInclude Include="src\ES\Layer.h" />
-    <ClInclude Include="src\ES\LayerStack.h" />
-    <ClInclude Include="src\ES\Log.h" />
-    <ClInclude Include="src\ES\MouseButtonCodes.h" />
+    <ClInclude Include="src\ES\Core\Input.h" />
+    <ClInclude Include="src\ES\Core\KeyCodes.h" />
+    <ClInclude Include="src\ES\Core\Layer.h" />
+    <ClInclude Include="src\ES\Core\LayerStack.h" />
+    <ClInclude Include="src\ES\Core\Log.h" />
+    <ClInclude Include="src\ES\Core\MouseButtonCodes.h" />
     <ClInclude Include="src\ES\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\ES\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\ES\Platform\OpenGL\OpenGLRendererAPI.h" />
@@ -170,7 +171,7 @@
     <ClInclude Include="src\ES\Renderer\RendererAPI.h" />
     <ClInclude Include="src\ES\Renderer\Shader.h" />
     <ClInclude Include="src\ES\Renderer\VertexArray.h" />
-    <ClInclude Include="src\ES\Window.h" />
+    <ClInclude Include="src\ES\Core\Window.h" />
     <ClInclude Include="src\espch.h" />
     <ClInclude Include="vendor\glm\glm\common.hpp" />
     <ClInclude Include="vendor\glm\glm\detail\_features.hpp" />
@@ -582,12 +583,12 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\ES\Application.cpp" />
+    <ClCompile Include="src\ES\Core\Application.cpp" />
     <ClCompile Include="src\ES\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\ES\ImGui\ImGuiLayer.cpp" />
-    <ClCompile Include="src\ES\Layer.cpp" />
-    <ClCompile Include="src\ES\LayerStack.cpp" />
-    <ClCompile Include="src\ES\Log.cpp" />
+    <ClCompile Include="src\ES\Core\Layer.cpp" />
+    <ClCompile Include="src\ES\Core\LayerStack.cpp" />
+    <ClCompile Include="src\ES\Core\Log.cpp" />
     <ClCompile Include="src\ES\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\ES\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\ES\Platform\OpenGL\OpenGLRendererAPI.cpp" />

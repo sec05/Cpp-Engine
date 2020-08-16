@@ -1,13 +1,14 @@
 #pragma once
 //For use by ES applications
-#include "ES/Application.h"
-#include "ES/Input.h"
-#include "ES/Layer.h"
-#include "ES/Log.h"
-#include "ES/Core.h"
+#include "ES/Core/Application.h"
+#include "ES/Core/Input.h"
+#include "ES/Core/Layer.h"
+#include "ES/Core/Log.h"
+#include "ES/Core/Core.h"
 
 #include "ES/ImGui/ImGuiLayer.h"
 
+#include "ES/Core/SystemInformation.h"
 #include "ES/Core/Timestep.h"
 
 #include "ES/Events/KeyEvent.h"
@@ -25,10 +26,10 @@
 //-------------------------------
 
 //------Entry Point--------------
-#include "ES/EntryPoint.h"
+#include "ES/Core/EntryPoint.h"
 //-------------------------------
 
 //------Input Codes---------------
-#include "ES/KeyCodes.h"
-#include "ES/MouseButtonCodes.h"
+#include "ES/Core/KeyCodes.h"
+#include "ES/Core/MouseButtonCodes.h"
 //-------------------------------

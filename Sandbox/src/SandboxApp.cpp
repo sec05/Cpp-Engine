@@ -117,21 +117,22 @@ public:
 	{
 		//ES_TRACE("Delta Time: {0}s ({1}ms)", ts.GetSeconds(), ts.GetMilliseconds());
 		fps = 1.0f / ts;
+		
 		if (ES::Input::IsKeyPressed(ES_KEY_W))
 		{
-			m_CameraPosition.y += 0.25f * ts;
+			m_CameraPosition.y += 1.0f * ts;
 		}
 		if (ES::Input::IsKeyPressed(ES_KEY_A))
 		{
-			m_CameraPosition.x -= 0.25f * ts;
+			m_CameraPosition.x -= 1.0f * ts;
 		}
 		if (ES::Input::IsKeyPressed(ES_KEY_S))
 		{
-			m_CameraPosition.y -= 0.25f * ts;
+			m_CameraPosition.y -= 1.0f * ts;
 		}
 		if (ES::Input::IsKeyPressed(ES_KEY_D))
 		{
-			m_CameraPosition.x += 0.25f * ts;
+			m_CameraPosition.x += 1.0f * ts;
 		}
 		if (ES::Input::IsKeyPressed(ES_KEY_R))
 		{
@@ -166,8 +167,11 @@ public:
 	}
 	virtual void OnImGuiRender() override//gets called in application.cpp
 	{
-		ImGui::Begin("FPS");
+		ImGui::Begin("System Information");
 		ImGui::Text("FPS: %f" , floor(fps));
+		ImGui::Text("Vendor: %s", m_SystemInfo.GetVendor());
+		ImGui::Text("Renderer: %s", m_SystemInfo.GetRenderer());
+		ImGui::Text("Version: %s", m_SystemInfo.GetVersion());
 		ImGui::End();
 	}
 private:
@@ -178,6 +182,7 @@ private:
 	std::shared_ptr<ES::IndexBuffer> m_IndexBuffer;
 	std::shared_ptr<ES::VertexArray> m_SquareVA;
 	ES::OrthographicCamera m_Camera;
+	ES::SystemInformation m_SystemInfo;
 	glm::vec3 m_CameraPosition;
 
 	float m_CameraRotation;

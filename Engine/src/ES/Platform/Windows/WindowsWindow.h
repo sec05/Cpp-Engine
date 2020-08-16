@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ES/Window.h"
+#include "ES/Core/Window.h"
 #include "ES/Renderer/GraphicsContext.h"
 #include <GLFW/glfw3.h>
 namespace ES

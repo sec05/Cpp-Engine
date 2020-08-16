@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ES/Input.h"
+#include "ES/Core/Input.h"
 
 namespace ES
 {

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "ES/Core.h"
-#include "Layer.h"
+#include "ES/Core/Core.h"
+#include "ES/Core/Layer.h"
 
 #include <vector>
 

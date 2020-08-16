@@ -1,7 +1,7 @@
 #include "espch.h"
-#include "Application.h"
+#include "ES/Core/Application.h"
 #include <glad/glad.h>
-#include "ES/Log.h"
+#include "ES/Core/Log.h"
 #include "ES/Renderer/Renderer.h"
 #include <GLFW/glfw3.h>
 namespace ES {

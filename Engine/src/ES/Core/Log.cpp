@@ -1,5 +1,5 @@
 #include "espch.h"
-#include "Log.h"
+#include "ES/Core/Log.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 namespace ES {
 	std::shared_ptr<spdlog::logger> Log::s_CoreLogger;
