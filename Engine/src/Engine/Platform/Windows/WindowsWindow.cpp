@@ -37,7 +37,7 @@ namespace Engine
 		m_Data.Height = props.Height;
 
 
-		ES_CORE_INFO("Creating window {0} ({1},{2})", props.Title, props.Width, props.Height);
+		ES_CORE_INFO("Creating window {0} ({1} x {2})", props.Title, props.Width, props.Height);
 		
 
 		if (!s_GLFWInitialized)//if glfw fails

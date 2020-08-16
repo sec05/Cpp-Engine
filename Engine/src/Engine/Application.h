@@ -4,11 +4,9 @@
 #include "Window.h"
 #include "Engine/Events/ApplicationEvent.h"
 #include "Engine/LayerStack.h"
-#include "Engine/Renderer/Shader.h"
+#include "Core.h"
 #include "Engine/ImGui/ImGuiLayer.h"
-#include "Engine/Renderer/Buffer.h"
-#include "Engine/Renderer/VertexArray.h"
-#include "Engine/Renderer/OrthographicCamera.h"
+#include "Engine/Core/Timestep.h"
 namespace Engine {
 	class   Application
 	{
@@ -24,10 +22,12 @@ namespace Engine {
 		inline Window& GetWindow() { return *m_Window; }
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
+	private:
 		std::unique_ptr<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
+		float m_LastFrameTime = 0.0f;
 	private:
 		static Application* s_Instance;
 	};

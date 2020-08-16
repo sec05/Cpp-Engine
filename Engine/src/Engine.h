@@ -8,6 +8,8 @@
 
 #include "Engine/ImGui/ImGuiLayer.h"
 
+#include "Engine/Core/Timestep.h"
+
 #include "Engine/Events/KeyEvent.h"
 #include "Engine/Events/ApplicationEvent.h"
 #include "Engine/Events/MouseEvent.h"

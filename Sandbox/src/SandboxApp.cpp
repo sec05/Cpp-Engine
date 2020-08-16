@@ -112,26 +112,35 @@ public:
 			)";
 		m_blueShader.reset(new Engine::Shader(vertexSrc2, fragmentSrc2));
 	}
-
-	void OnUpdate() override//happens every frame
+	
+	void OnUpdate(Engine::Timestep ts) override//happens every frame
 	{
+		//ES_TRACE("Delta Time: {0}s ({1}ms)", ts.GetSeconds(), ts.GetMilliseconds());
+		fps = 1.0f / ts;
+		ES_TRACE("{0}", fps);
 		if (Engine::Input::IsKeyPressed(ES_KEY_W))
 		{
-			m_CameraPosition.y += 0.25f;
+			m_CameraPosition.y += 0.25f * ts;
 		}
 		if (Engine::Input::IsKeyPressed(ES_KEY_A))
 		{
-			m_CameraPosition.x -= 0.25f;
+			m_CameraPosition.x -= 0.25f * ts;
 		}
 		if (Engine::Input::IsKeyPressed(ES_KEY_S))
 		{
-			m_CameraPosition.y -= 0.25f;
+			m_CameraPosition.y -= 0.25f * ts;
 		}
 		if (Engine::Input::IsKeyPressed(ES_KEY_D))
 		{
-			m_CameraPosition.x += 0.25f;
+			m_CameraPosition.x += 0.25f * ts;
 		}
-		
+		if (Engine::Input::IsKeyPressed(ES_KEY_R))
+		{
+			m_CameraPosition.x = 0.0f;
+			m_CameraPosition.y = 0.0f;
+			m_CameraPosition.z = 0.0f;
+			m_CameraRotation = 0.0f;
+		}
 	
 		Engine::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 		Engine::RenderCommand::Clear();
@@ -158,7 +167,9 @@ public:
 	}
 	virtual void OnImGuiRender() override//gets called in application.cpp
 	{
-	
+		ImGui::Begin("FPS");
+		ImGui::Text("FPS: %f" , floor(fps));
+		ImGui::End();
 	}
 private:
 	std::shared_ptr<Engine::Shader> m_Shader;
@@ -166,11 +177,12 @@ private:
 	std::shared_ptr<Engine::VertexArray> m_VertexArray;
 	std::shared_ptr<Engine::VertexBuffer> m_VertexBuffer;
 	std::shared_ptr<Engine::IndexBuffer> m_IndexBuffer;
-
 	std::shared_ptr<Engine::VertexArray> m_SquareVA;
 	Engine::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition;
+
 	float m_CameraRotation;
+	float fps;
 };
 
 

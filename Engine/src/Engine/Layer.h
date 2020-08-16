@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Engine/Core.h"
+#include "Engine/Core/Timestep.h"
 #include "Engine/Events/Event.h"
 
 namespace Engine
@@ -13,7 +14,7 @@ namespace Engine
 
 		virtual void OnAttach(){}//pushed on layer stack
 		virtual void OnDetach() {}
-		virtual void OnUpdate() {}//every frame
+		virtual void OnUpdate(Timestep ts) {}//every frame
 		virtual void OnImGuiRender() {}
 		virtual void OnEvent(Event& event){}
 

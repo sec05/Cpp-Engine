@@ -3,7 +3,7 @@
 #include <glad/glad.h>
 #include "Engine/Log.h"
 #include "Engine/Renderer/Renderer.h"
-
+#include <GLFW/glfw3.h>
 namespace Engine {
 
 #define BIND_EVENT_FN(x) std::bind(&Application::x,this, std::placeholders::_1)//this event and the event name
@@ -15,17 +15,17 @@ namespace Engine {
 	{
 		switch (type)
 		{
-			case Engine::ShaderDataType::Float:  return GL_FLOAT;
-			case Engine::ShaderDataType::Float2: return GL_FLOAT;
-			case Engine::ShaderDataType::Float3: return GL_FLOAT;
-			case Engine::ShaderDataType::Float4: return GL_FLOAT;
-			case Engine::ShaderDataType::Mat3:	 return GL_FLOAT;	
-			case Engine::ShaderDataType::Mat4:	 return GL_FLOAT;
-			case Engine::ShaderDataType::Int:	 return GL_INT;
-			case Engine::ShaderDataType::Int2:	 return GL_INT;
-			case Engine::ShaderDataType::Int3:	 return GL_INT;
-			case Engine::ShaderDataType::Int4:	 return GL_INT;
-			case Engine::ShaderDataType::Bool:	 return GL_BOOL;
+			case Engine::ShaderDataType::Float:		return GL_FLOAT;
+			case Engine::ShaderDataType::Float2:	return GL_FLOAT;
+			case Engine::ShaderDataType::Float3:	return GL_FLOAT;
+			case Engine::ShaderDataType::Float4:	return GL_FLOAT;
+			case Engine::ShaderDataType::Mat3:		return GL_FLOAT;	
+			case Engine::ShaderDataType::Mat4:		return GL_FLOAT;
+			case Engine::ShaderDataType::Int:		return GL_INT;
+			case Engine::ShaderDataType::Int2:		return GL_INT;
+			case Engine::ShaderDataType::Int3:		return GL_INT;
+			case Engine::ShaderDataType::Int4:		return GL_INT;
+			case Engine::ShaderDataType::Bool:		return GL_BOOL;
 		}
 		ES_CORE_ASSERT(false, "Unkown ShaderDataType!");
 		return 0;
@@ -37,7 +37,7 @@ namespace Engine {
 		ES_CORE_ASSERT(!s_Instance, "Application already exists");
 		s_Instance = this;
 
-		m_Window = std::unique_ptr<Window>(Window::Create());
+		m_Window = std::unique_ptr<Window>(Window::Create());//makes the window
 		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
 		//m_Window->SetVSync(false);
 		m_ImGuiLayer = new ImGuiLayer();
@@ -76,16 +76,17 @@ namespace Engine {
 
 		while (m_Running)
 		{
-
-			
+			float time = (float)glfwGetTime();
+			Timestep timestep = time - m_LastFrameTime;
+			m_LastFrameTime = time;
 			for (Layer* layer : m_LayerStack)
-				layer->OnUpdate();
+				layer->OnUpdate(timestep);
 				
 			m_ImGuiLayer->Begin();
 			for (Layer* layer : m_LayerStack)
 				layer->OnImGuiRender();
 			m_ImGuiLayer->End();
-		
+			
 			m_Window->OnUpdate();
 			
 		};
