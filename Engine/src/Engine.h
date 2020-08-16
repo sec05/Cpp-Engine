@@ -1,34 +1,34 @@
 #pragma once
-//For use by engine applications
-#include "Engine/Application.h"
-#include "Engine/Input.h"
-#include "Engine/Layer.h"
-#include "Engine/Log.h"
-#include "Engine/Core.h"
+//For use by ES applications
+#include "ES/Application.h"
+#include "ES/Input.h"
+#include "ES/Layer.h"
+#include "ES/Log.h"
+#include "ES/Core.h"
 
-#include "Engine/ImGui/ImGuiLayer.h"
+#include "ES/ImGui/ImGuiLayer.h"
 
-#include "Engine/Core/Timestep.h"
+#include "ES/Core/Timestep.h"
 
-#include "Engine/Events/KeyEvent.h"
-#include "Engine/Events/ApplicationEvent.h"
-#include "Engine/Events/MouseEvent.h"
+#include "ES/Events/KeyEvent.h"
+#include "ES/Events/ApplicationEvent.h"
+#include "ES/Events/MouseEvent.h"
 //------Renderer---------------
-#include "Engine/Renderer/Renderer.h"
-#include "Engine/Renderer/RenderCommand.h"
+#include "ES/Renderer/Renderer.h"
+#include "ES/Renderer/RenderCommand.h"
 
-#include "Engine/Renderer/Buffer.h"
-#include "Engine/Renderer/VertexArray.h"
-#include "Engine/Renderer/Shader.h"
+#include "ES/Renderer/Buffer.h"
+#include "ES/Renderer/VertexArray.h"
+#include "ES/Renderer/Shader.h"
 
-#include "Engine/Renderer/OrthographicCamera.h"
+#include "ES/Renderer/OrthographicCamera.h"
 //-------------------------------
 
 //------Entry Point--------------
-#include "Engine/EntryPoint.h"
+#include "ES/EntryPoint.h"
 //-------------------------------
 
 //------Input Codes---------------
-#include "Engine/KeyCodes.h"
-#include "Engine/MouseButtonCodes.h"
+#include "ES/KeyCodes.h"
+#include "ES/MouseButtonCodes.h"
 //-------------------------------
