@@ -1372,6 +1372,7 @@
     <ClInclude Include="src\ES\Core\Window.h">
       <Filter>src\Engine</Filter>
     </ClInclude>
+    <ClInclude Include="src\ES\Platform\OpenGL\OpenGLShader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\espch.cpp">
@@ -1434,5 +1435,6 @@
     <ClCompile Include="src\ES\Core\Log.cpp">
       <Filter>src\Engine</Filter>
     </ClCompile>
+    <ClCompile Include="src\ES\Platform\OpenGL\OpenGLShader.cpp" />
   </ItemGroup>
 </Project>

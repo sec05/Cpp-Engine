@@ -140,6 +140,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ES\Platform\OpenGL\OpenGLShader.h" />
     <ClInclude Include="src\Engine.h" />
     <ClInclude Include="src\ES\Core\Application.h" />
     <ClInclude Include="src\ES\Core\Core.h" />
@@ -583,6 +584,7 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ES\Platform\OpenGL\OpenGLShader.cpp" />
     <ClCompile Include="src\ES\Core\Application.cpp" />
     <ClCompile Include="src\ES\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\ES\ImGui\ImGuiLayer.cpp" />

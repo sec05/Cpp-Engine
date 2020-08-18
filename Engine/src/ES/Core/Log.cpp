@@ -9,7 +9,7 @@ namespace ES {
 	void Log::Init()
 	{
 		spdlog::set_pattern("%^[%T] %n: %v%$");//time stamp name of logger and then the message
-		s_CoreLogger = spdlog::stdout_color_mt("ES");//name of the message
+		s_CoreLogger = spdlog::stdout_color_mt("ENGINE");//name of the message
 		s_CoreLogger->set_level(spdlog::level::trace);//prints all of the message
 
 		s_ClientLogger = spdlog::stdout_color_mt("APP");

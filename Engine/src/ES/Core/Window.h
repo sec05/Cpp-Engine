@@ -13,7 +13,7 @@ namespace ES
 		unsigned int Width;
 		unsigned int Height;
 		//default parameters
-		WindowProps(const std::string& title = "ES ES",
+		WindowProps(const std::string& title = "ES Engine",
 					unsigned int width = 1920,
 					unsigned int height = 1080)
 			: Title(title), Width(width), Height(height)
@@ -34,7 +34,7 @@ namespace ES
 
 		virtual unsigned int GetWidth() const = 0;
 		virtual unsigned int GetHeight() const = 0;
-
+		virtual std::string GetTitle() const = 0;
 		//window attributes
 		virtual void SetEventCallback(const EventCallbackFn& callback) = 0;
 		virtual void SetVSync(bool enabled) = 0;
