@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 
 #ifdef ES_DEBUG
 #define ES_ENABLE_ASSERTS
@@ -15,3 +16,14 @@
 #define BIT(x) (1<<x) //creates a bitfield 
 
 #define ES_BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
+
+namespace ES
+
+{
+	template<typename T>	
+	using Scope = std::unique_ptr<T>;
+
+
+	template<typename T>
+	using Ref = std::shared_ptr<T>;
+}

@@ -35,14 +35,14 @@ public:
 			-0.5f,  0.5f, 0.0f
 
 		};
-		std::shared_ptr<ES::VertexBuffer> SquareVB;
+		ES::Ref<ES::VertexBuffer> SquareVB;
 		SquareVB.reset(ES::VertexBuffer::Create(SQvertices, sizeof(SQvertices)));
 		SquareVB->SetLayout({
 			{ES::ShaderDataType::Float3, "a_Position"},
 			});
 		m_SquareVA->AddVertexBuffer(SquareVB);
 		uint32_t squareIndicies[6] = { 0,1,2,2,3,0 };//draws 2 triangles so 0,1,2 then 2,3,0 for the different points
-		std::shared_ptr<ES::IndexBuffer> SquareIB;
+		ES::Ref<ES::IndexBuffer> SquareIB;
 		SquareIB.reset(ES::IndexBuffer::Create(squareIndicies, sizeof(squareIndicies) / sizeof(uint32_t)));
 		m_SquareVA->SetIndexBuffer(SquareIB);
 		std::string vertexSrc = R"(
@@ -211,16 +211,16 @@ public:
 		ImGui::End();
 
 		ImGui::Begin("Settings");
-		ImGui::ColorEdit3("Squares Colores", glm::value_ptr(m_SquareColor));
+		ImGui::ColorEdit3("Squares Colors", glm::value_ptr(m_SquareColor));
 		ImGui::End();
 	}
 private:
-	std::shared_ptr<ES::Shader> m_Shader;
-	std::shared_ptr<ES::Shader> m_FlatColorShader;
-	std::shared_ptr<ES::VertexArray> m_VertexArray;
-	std::shared_ptr<ES::VertexBuffer> m_VertexBuffer;
-	std::shared_ptr<ES::IndexBuffer> m_IndexBuffer;
-	std::shared_ptr<ES::VertexArray> m_SquareVA;
+	ES::Ref<ES::Shader> m_Shader;
+	ES::Ref<ES::Shader> m_FlatColorShader;
+	ES::Ref<ES::VertexArray> m_VertexArray;
+	ES::Ref<ES::VertexBuffer> m_VertexBuffer;
+	ES::Ref<ES::IndexBuffer> m_IndexBuffer;
+	ES::Ref<ES::VertexArray> m_SquareVA;
 	ES::OrthographicCamera m_Camera;
 	ES::SystemInformation m_SystemInfo;
 	glm::vec3 m_CameraPosition;
