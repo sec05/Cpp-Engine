@@ -46,112 +46,13 @@ public:
 		ES::Ref<ES::IndexBuffer> SquareIB;
 		SquareIB.reset(ES::IndexBuffer::Create(squareIndicies, sizeof(squareIndicies) / sizeof(uint32_t)));
 		m_SquareVA->SetIndexBuffer(SquareIB);
-		std::string vertexSrc = R"(
-			#version 330 core
-			
-			layout(location = 0) in vec3 a_Position;
-			layout(location =1) in vec4 a_Color;
+		
+	
+		m_FlatColorShader.reset(ES::Shader::Create("assets/shaders/FlatColorShader.glsl"));
 
-			uniform mat4 u_ViewProjection;
-			uniform mat4 u_Transform;
+	
+		m_TextureShader.reset(ES::Shader::Create("assets/shaders/Texture.glsl"));
 
-			out vec3 v_Position;
-			out vec4 v_Color;
-			void main()
-			{
-				v_Position = a_Position;
-				v_Color = a_Color;
-				gl_Position=u_ViewProjection * u_Transform * vec4(a_Position,1.0);
-			} 
-			
-
-
-			)";
-		std::string fragmentSrc = R"(
-			#version 330 core
-			
-			layout(location = 0) out vec4 color;
-			in vec3 v_Position;	
-			in vec4 v_Color;	
-			void main()
-			{
-				
-				color = vec4(v_Position*2+0.75,1.0);
-				color = v_Color;
-			} 
-			
-
-
-			)";
-
-		m_Shader.reset(ES::Shader::Create(vertexSrc, fragmentSrc));
-		std::string FlatColorVertexSrc = R"(
-			#version 330 core
-			
-			layout(location = 0) in vec3 a_Position;
-			uniform mat4 u_ViewProjection;
-			uniform mat4 u_Transform;
-			out vec3 v_Position;
-			void main()
-			{
-				v_Position = a_Position;
-				gl_Position=u_ViewProjection * u_Transform * vec4(a_Position,1.0);
-			} 
-			
-
-
-			)";
-		std::string FlatColorFragmentSrc = R"(
-			#version 330 core
-			
-			layout(location = 0) out vec4 color;
-			in vec3 v_Position;	
-			uniform vec3 u_Color;
-			void main()
-			{
-				
-				color = vec4(u_Color,1.0);
-			} 
-			
-
-
-			)";
-		m_FlatColorShader.reset(ES::Shader::Create(FlatColorVertexSrc, FlatColorFragmentSrc));
-
-		std::string textureShaderVertexSrc2 = R"(
-			#version 330 core
-			
-			layout(location = 0) in vec3 a_Position;
-			layout(location = 1) in vec2 a_TexCoords;
-			uniform mat4 u_ViewProjection;
-			uniform mat4 u_Transform;
-			out vec2 v_TexCoords;
-			void main()
-			{
-				v_TexCoords = a_TexCoords;
-				gl_Position=u_ViewProjection * u_Transform * vec4(a_Position,1.0);
-			} 
-			
-
-
-			)";
-		std::string textureShaderFragmentSrc2 = R"(
-			#version 330 core
-			
-			layout(location = 0) out vec4 color;
-			
-			in vec2 v_TexCoords;
-			uniform sampler2D u_Texture;
-			void main()
-			{
-				
-				color = texture(u_Texture,v_TexCoords);
-			} 
-			
-
-
-			)";
-		m_TextureShader.reset(ES::Shader::Create(textureShaderVertexSrc2, textureShaderFragmentSrc2));
 		m_Texture = ES::Texture2D::Create("assets/textures/woody.png");
 		m_AlphaTexture = ES::Texture2D::Create("assets/textures/butterfly.png");
 		std::dynamic_pointer_cast<ES::OpenGLShader>(m_TextureShader)->Bind();
@@ -211,24 +112,17 @@ public:
 		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
 		std::dynamic_pointer_cast<ES::OpenGLShader>(m_FlatColorShader)->Bind();
-		std::dynamic_pointer_cast<ES::OpenGLShader>(m_FlatColorShader)->UploadUniformFloat3("u_Color",m_SquareColor);
-		for (int y = 0; y < 20; y++)
-		{
-			for (int x = 0; x < 20; x++)
-					{
-						glm::vec3 pos(x * 0.11f, y*0.11f, 0.0f);
-						glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
-						
-					
-							
-					}
-		}
+		std::dynamic_pointer_cast<ES::OpenGLShader>(m_FlatColorShader)->UploadUniformFloat3("u_Color", m_FlatColor);
+		
 		m_Texture->Bind();
 		ES::Renderer::Submit(m_TextureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+
+		glm::mat4 butterflyTransform = glm::translate(glm::mat4(1.0f), glm::vec3(1.5f,0.0f,0.0f));
 		m_AlphaTexture->Bind();
-		ES::Renderer::Submit(m_TextureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
-			//triangle
-		//ES::Renderer::Submit(m_Shader, m_VertexArray);
+		ES::Renderer::Submit(m_TextureShader, m_SquareVA, butterflyTransform);
+		
+		glm::mat4 triangleTransform = glm::translate(glm::mat4(1.0f), glm::vec3(-1.5f, 0.0f, 0.0f));
+		ES::Renderer::Submit(m_FlatColorShader, m_VertexArray, triangleTransform);
 		ES::Renderer::EndScene();
 	}
 	void OnEvent(ES::Event& e) override//events happen once 
@@ -253,6 +147,10 @@ public:
 		ImGui::Text("Renderer: %s", m_SystemInfo.GetRenderer());
 		ImGui::Text("Version: %s", m_SystemInfo.GetVersion());
 		ImGui::End();
+
+		ImGui::Begin("Flat Color Shader");
+		ImGui::ColorPicker3("Flat Color Shader Picker",glm::value_ptr(m_FlatColor));
+		ImGui::End();
 	}
 private:
 	ES::Ref<ES::Shader> m_Shader;
@@ -265,7 +163,7 @@ private:
 	ES::OrthographicCamera m_Camera;
 	ES::SystemInformation m_SystemInfo;
 	glm::vec3 m_CameraPosition;
-	glm::vec3 m_SquareColor = { 0.2f,0.5f,0.8f };
+	glm::vec3 m_FlatColor = { 0.2f,0.5f,0.8f };
 	float m_CameraRotation;
 	float fps;
 
