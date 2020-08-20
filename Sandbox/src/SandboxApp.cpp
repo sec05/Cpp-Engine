@@ -28,17 +28,18 @@ public:
 		m_IndexBuffer.reset(ES::IndexBuffer::Create(indicies, sizeof(indicies) / sizeof(uint32_t)));
 		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
 		m_SquareVA.reset(ES::VertexArray::Create());
-		float SQvertices[3 * 4] = {//screen right now is -1 to 1 because there is no projection matrix
-			-0.5f, -0.5f, 0.0f,
-			 0.5f, -0.5f, 0.0f,
-			 0.5f,  0.5f, 0.0f,
-			-0.5f,  0.5f, 0.0f
+		float SQvertices[5 * 4] = {//screen right now is -1 to 1 because there is no projection matrix
+			-0.5f, -0.5f, 0.0f,0.0f,0.0f,//bottom left of square is 0,0 top right is 1,1 for tex coords
+			 0.5f, -0.5f, 0.0f, 1.0f,0.0f,
+			 0.5f,  0.5f, 0.0f, 1.0f,1.0f,
+			-0.5f,  0.5f, 0.0f, 0.0f,1.0f,
 
 		};
 		ES::Ref<ES::VertexBuffer> SquareVB;
 		SquareVB.reset(ES::VertexBuffer::Create(SQvertices, sizeof(SQvertices)));
 		SquareVB->SetLayout({
 			{ES::ShaderDataType::Float3, "a_Position"},
+			{ES::ShaderDataType::Float2, "a_TexCoord"},
 			});
 		m_SquareVA->AddVertexBuffer(SquareVB);
 		uint32_t squareIndicies[6] = { 0,1,2,2,3,0 };//draws 2 triangles so 0,1,2 then 2,3,0 for the different points
@@ -84,7 +85,7 @@ public:
 			)";
 
 		m_Shader.reset(ES::Shader::Create(vertexSrc, fragmentSrc));
-		std::string FlatColorVertexSrc2 = R"(
+		std::string FlatColorVertexSrc = R"(
 			#version 330 core
 			
 			layout(location = 0) in vec3 a_Position;
@@ -100,7 +101,7 @@ public:
 
 
 			)";
-		std::string FlatColorFragmentSrc2 = R"(
+		std::string FlatColorFragmentSrc = R"(
 			#version 330 core
 			
 			layout(location = 0) out vec4 color;
@@ -115,7 +116,47 @@ public:
 
 
 			)";
-		m_FlatColorShader.reset(ES::Shader::Create(FlatColorVertexSrc2, FlatColorFragmentSrc2));
+		m_FlatColorShader.reset(ES::Shader::Create(FlatColorVertexSrc, FlatColorFragmentSrc));
+
+		std::string textureShaderVertexSrc2 = R"(
+			#version 330 core
+			
+			layout(location = 0) in vec3 a_Position;
+			layout(location = 1) in vec2 a_TexCoords;
+			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
+			out vec2 v_TexCoords;
+			void main()
+			{
+				v_TexCoords = a_TexCoords;
+				gl_Position=u_ViewProjection * u_Transform * vec4(a_Position,1.0);
+			} 
+			
+
+
+			)";
+		std::string textureShaderFragmentSrc2 = R"(
+			#version 330 core
+			
+			layout(location = 0) out vec4 color;
+			
+			in vec2 v_TexCoords;
+			uniform sampler2D u_Texture;
+			void main()
+			{
+				
+				color = texture(u_Texture,v_TexCoords);
+			} 
+			
+
+
+			)";
+		m_TextureShader.reset(ES::Shader::Create(textureShaderVertexSrc2, textureShaderFragmentSrc2));
+		m_Texture = ES::Texture2D::Create("assets/textures/woody.png");
+		m_AlphaTexture = ES::Texture2D::Create("assets/textures/butterfly.png");
+		std::dynamic_pointer_cast<ES::OpenGLShader>(m_TextureShader)->Bind();
+		std::dynamic_pointer_cast<ES::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
+
 	}
 	
 	void OnUpdate(ES::Timestep ts) override//happens every frame
@@ -178,13 +219,16 @@ public:
 						glm::vec3 pos(x * 0.11f, y*0.11f, 0.0f);
 						glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
 						
-						ES::Renderer::Submit(m_FlatColorShader, m_SquareVA, transform);
+					
 							
 					}
 		}
-		
-			
-		ES::Renderer::Submit(m_Shader, m_VertexArray);
+		m_Texture->Bind();
+		ES::Renderer::Submit(m_TextureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+		m_AlphaTexture->Bind();
+		ES::Renderer::Submit(m_TextureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+			//triangle
+		//ES::Renderer::Submit(m_Shader, m_VertexArray);
 		ES::Renderer::EndScene();
 	}
 	void OnEvent(ES::Event& e) override//events happen once 
@@ -209,18 +253,15 @@ public:
 		ImGui::Text("Renderer: %s", m_SystemInfo.GetRenderer());
 		ImGui::Text("Version: %s", m_SystemInfo.GetVersion());
 		ImGui::End();
-
-		ImGui::Begin("Settings");
-		ImGui::ColorEdit3("Squares Colors", glm::value_ptr(m_SquareColor));
-		ImGui::End();
 	}
 private:
 	ES::Ref<ES::Shader> m_Shader;
-	ES::Ref<ES::Shader> m_FlatColorShader;
+	ES::Ref<ES::Shader> m_FlatColorShader, m_TextureShader;
 	ES::Ref<ES::VertexArray> m_VertexArray;
 	ES::Ref<ES::VertexBuffer> m_VertexBuffer;
 	ES::Ref<ES::IndexBuffer> m_IndexBuffer;
 	ES::Ref<ES::VertexArray> m_SquareVA;
+	ES::Ref<ES::Texture2D> m_Texture, m_AlphaTexture;
 	ES::OrthographicCamera m_Camera;
 	ES::SystemInformation m_SystemInfo;
 	glm::vec3 m_CameraPosition;

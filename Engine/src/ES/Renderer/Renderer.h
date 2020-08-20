@@ -8,6 +8,8 @@ namespace ES
 	class Renderer
 	{
 	public:
+		static void Init();
+
 		static void BeginScene(OrthographicCamera& camera); //needs to take in scene parameters
 		static void EndScene();
 

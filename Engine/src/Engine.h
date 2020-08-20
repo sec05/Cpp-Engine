@@ -21,6 +21,7 @@
 #include "ES/Renderer/Buffer.h"
 #include "ES/Renderer/VertexArray.h"
 #include "ES/Renderer/Shader.h"
+#include "ES/Renderer/Texture.h"
 
 #include "ES/Renderer/OrthographicCamera.h"
 //-------------------------------
