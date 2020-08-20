@@ -10,4 +10,5 @@ This is an early work in progress C++ 2D game engine, influeced by The Cherno's 
 <li><a target="_blank" rel="noopener noreferrer" href='https://github.com/ocornut/imgui'>ImGui 1.77</a></li>
 <li><a target="_blank" rel="noopener noreferrer" href='https://premake.github.io/'>Premake 4.4</a></li>
 <li><a target="_blank" rel="noopener noreferrer" href='https://github.com/gabime/spdlog'>spdlog 1.6.1</a></li>
+  <li><a target="_blank" rel="noopener noreferrer" href='https://github.com/nothings/stb'>stb_image</a></li>
 </ul>
