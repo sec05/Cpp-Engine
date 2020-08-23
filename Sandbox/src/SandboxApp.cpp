@@ -48,15 +48,15 @@ public:
 		m_SquareVA->SetIndexBuffer(SquareIB);
 		
 	
-		m_FlatColorShader.reset(ES::Shader::Create("assets/shaders/FlatColorShader.glsl"));
+		m_FlatColorShader = ES::Shader::Create("assets/shaders/FlatColorShader.glsl");
 
 	
-		m_TextureShader.reset(ES::Shader::Create("assets/shaders/Texture.glsl"));
+		auto textureShader = m_ShaderLibrary.Load("assets/shaders/Texture.glsl");
 
 		m_Texture = ES::Texture2D::Create("assets/textures/woody.png");
 		m_AlphaTexture = ES::Texture2D::Create("assets/textures/butterfly.png");
-		std::dynamic_pointer_cast<ES::OpenGLShader>(m_TextureShader)->Bind();
-		std::dynamic_pointer_cast<ES::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
+		std::dynamic_pointer_cast<ES::OpenGLShader>(textureShader)->Bind();
+		std::dynamic_pointer_cast<ES::OpenGLShader>(textureShader)->UploadUniformInt("u_Texture", 0);
 
 	}
 	
@@ -88,22 +88,7 @@ public:
 			m_CameraPosition.z = 0.0f;
 			m_CameraRotation = 0.0f;
 		}
-		if (ES::Input::IsKeyPressed(ES_KEY_UP))
-		{
-			m_SquarePosition.y += 1.0f * ts;
-		}
-		if (ES::Input::IsKeyPressed(ES_KEY_LEFT))
-		{
-			m_SquarePosition.x -= 1.0f * ts;
-		}
-		if (ES::Input::IsKeyPressed(ES_KEY_DOWN))
-		{
-			m_SquarePosition.y -= 1.0f * ts;
-		}
-		if (ES::Input::IsKeyPressed(ES_KEY_RIGHT))
-		{
-			m_SquarePosition.x += 1.0f * ts;
-		}
+		
 		ES::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 		ES::RenderCommand::Clear();
 		m_Camera.SetPosition(m_CameraPosition);
@@ -113,13 +98,13 @@ public:
 
 		std::dynamic_pointer_cast<ES::OpenGLShader>(m_FlatColorShader)->Bind();
 		std::dynamic_pointer_cast<ES::OpenGLShader>(m_FlatColorShader)->UploadUniformFloat3("u_Color", m_FlatColor);
-		
+		auto textureShader = m_ShaderLibrary.Get("Texture");
 		m_Texture->Bind();
-		ES::Renderer::Submit(m_TextureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+		ES::Renderer::Submit(textureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.0f)));
 
 		glm::mat4 butterflyTransform = glm::translate(glm::mat4(1.0f), glm::vec3(1.5f,0.0f,0.0f));
 		m_AlphaTexture->Bind();
-		ES::Renderer::Submit(m_TextureShader, m_SquareVA, butterflyTransform);
+		ES::Renderer::Submit(textureShader, m_SquareVA, butterflyTransform);
 		
 		glm::mat4 triangleTransform = glm::translate(glm::mat4(1.0f), glm::vec3(-1.5f, 0.0f, 0.0f));
 		ES::Renderer::Submit(m_FlatColorShader, m_VertexArray, triangleTransform);
@@ -153,8 +138,9 @@ public:
 		ImGui::End();
 	}
 private:
+	ES::ShaderLibrary m_ShaderLibrary;
 	ES::Ref<ES::Shader> m_Shader;
-	ES::Ref<ES::Shader> m_FlatColorShader, m_TextureShader;
+	ES::Ref<ES::Shader> m_FlatColorShader;
 	ES::Ref<ES::VertexArray> m_VertexArray;
 	ES::Ref<ES::VertexBuffer> m_VertexBuffer;
 	ES::Ref<ES::IndexBuffer> m_IndexBuffer;

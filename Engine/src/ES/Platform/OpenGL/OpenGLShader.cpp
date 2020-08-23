@@ -25,8 +25,17 @@ namespace ES
 		std::string ShaderSrc = ReadFile(filepath);
 		auto shaderSources = PreProcess(ShaderSrc);
 		Compile(shaderSources);
+
+		//assets/shaders/texture.glsl
+		//extract name from filepath
+		auto lastSlash = filepath.find_last_of("/\\");
+		lastSlash = lastSlash == std::string::npos ? 0 : lastSlash + 1;
+		auto lastDot = filepath.rfind('.');
+		auto count = lastDot == std::string::npos ? filepath.size() - lastSlash : lastDot - lastSlash;
+		m_Name = filepath.substr(lastSlash, count);
 	}
-	OpenGLShader::OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc)
+	OpenGLShader::OpenGLShader(const std::string& name,const std::string& vertexSrc, const std::string& fragmentSrc)
+		: m_Name(name)
 	{
 		std::unordered_map<GLenum, std::string> sources;
 		sources[GL_VERTEX_SHADER] = vertexSrc;
@@ -41,7 +50,7 @@ namespace ES
 	{
 
 		std::string result;
-		std::ifstream in(filepath, std::ios::in, std::ios::binary);
+		std::ifstream in(filepath, std::ios::in | std::ios::binary);
 		if (in)
 		{
 
@@ -83,7 +92,9 @@ namespace ES
 	{
 
 		GLuint program = glCreateProgram();
-		std::vector<GLenum> glShaderIDs(shaderSources.size());
+		ES_CORE_ASSERT(shaderSources.size() <= 2, "Engine only supports 2 shaders!");
+		std::array<GLenum, 2> glShaderIDs;
+		int glShaderIDIndex = 0;
 		for (auto& kv : shaderSources)
 		{
 			GLenum type = kv.first;
@@ -119,7 +130,7 @@ namespace ES
 			}
 
 			glAttachShader(program, shader);
-			glShaderIDs.push_back(shader);
+			glShaderIDs[glShaderIDIndex++] = shader;
 		}
 
 		// Link our program
