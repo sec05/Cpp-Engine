@@ -90,8 +90,17 @@ public:
 	{
 		 
 		m_CameraController.OnEvent(e);
+		ES::EventDispatcher dispatcher(e);
+		dispatcher.Dispatch<ES::MouseMovedEvent>(ES_BIND_EVENT_FN(ExampleLayer::MouseMoved));
+		
+			
 	}
-	
+	bool MouseMoved(ES::Event& e) 
+	{
+		ES::MouseMovedEvent mm = (ES::MouseMovedEvent&)e;
+		//ES_TRACE("{0},{1}", mm.GetX(), mm.GetY());
+		return false;
+	}
 	virtual void OnImGuiRender() override//gets called in application.cpp
 	{
 		ImGui::Begin("System Information");

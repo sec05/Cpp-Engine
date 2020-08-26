@@ -140,7 +140,6 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\ES\Core\OrthographicCameraController.h" />
     <ClInclude Include="src\ES\Core\Application.h" />
     <ClInclude Include="src\ES\Core\Core.h" />
     <ClInclude Include="src\ES\Core\EntryPoint.h" />
@@ -150,6 +149,7 @@
     <ClInclude Include="src\ES\Core\LayerStack.h" />
     <ClInclude Include="src\ES\Core\Log.h" />
     <ClInclude Include="src\ES\Core\MouseButtonCodes.h" />
+    <ClInclude Include="src\ES\Core\OrthographicCameraController.h" />
     <ClInclude Include="src\ES\Core\SystemInformation.h" />
     <ClInclude Include="src\ES\Core\Timestep.h" />
     <ClInclude Include="src\ES\Core\Window.h" />
@@ -588,11 +588,11 @@
     <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\ES\Core\OrthographicCameraController.cpp" />
     <ClCompile Include="src\ES\Core\Application.cpp" />
     <ClCompile Include="src\ES\Core\Layer.cpp" />
     <ClCompile Include="src\ES\Core\LayerStack.cpp" />
     <ClCompile Include="src\ES\Core\Log.cpp" />
+    <ClCompile Include="src\ES\Core\OrthographicCameraController.cpp" />
     <ClCompile Include="src\ES\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\ES\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\ES\Platform\OpenGL\OpenGLBuffer.cpp" />
