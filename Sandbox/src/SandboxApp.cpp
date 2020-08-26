@@ -7,7 +7,7 @@ class ExampleLayer : public ES::Layer
 {
 public:
 	ExampleLayer()
-		: Layer("Example"), m_Camera(-1.6, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f),m_CameraRotation(0.0f),m_SquarePosition(0.0f)
+		: Layer("Example"), m_CameraController(1920.0f/1080.0f, true), m_CameraPosition(0.0f)
 	{
 		m_VertexArray.reset(ES::VertexArray::Create());
 		float vertices[3 * 7] = {//screen right now is -1 to 1 because there is no projection matrix
@@ -65,35 +65,11 @@ public:
 		//ES_TRACE("Delta Time: {0}s ({1}ms)", ts.GetSeconds(), ts.GetMilliseconds());
 		fps = 1.0f / ts;
 		
-		if (ES::Input::IsKeyPressed(ES_KEY_W))
-		{
-			m_CameraPosition.y += 1.0f * ts;
-		}
-		if (ES::Input::IsKeyPressed(ES_KEY_A))
-		{
-			m_CameraPosition.x -= 1.0f * ts;
-		}
-		if (ES::Input::IsKeyPressed(ES_KEY_S))
-		{
-			m_CameraPosition.y -= 1.0f * ts;
-		}
-		if (ES::Input::IsKeyPressed(ES_KEY_D))
-		{
-			m_CameraPosition.x += 1.0f * ts;
-		}
-		if (ES::Input::IsKeyPressed(ES_KEY_R))
-		{
-			m_CameraPosition.x = 0.0f;
-			m_CameraPosition.y = 0.0f;
-			m_CameraPosition.z = 0.0f;
-			m_CameraRotation = 0.0f;
-		}
+		m_CameraController.OnUpdate(ts);
 		
 		ES::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 		ES::RenderCommand::Clear();
-		m_Camera.SetPosition(m_CameraPosition);
-		m_Camera.SetRotation(m_CameraRotation);
-		ES::Renderer::BeginScene(m_Camera);
+		ES::Renderer::BeginScene(m_CameraController.GetCamera());
 		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
 		std::dynamic_pointer_cast<ES::OpenGLShader>(m_FlatColorShader)->Bind();
@@ -112,18 +88,10 @@ public:
 	}
 	void OnEvent(ES::Event& e) override//events happen once 
 	{
-		ES::EventDispatcher dispatcher(e);
-		dispatcher.Dispatch<ES::MouseScrolledEvent>(ES_BIND_EVENT_FN(ExampleLayer::OnMouseScroll));
-
-
+		 
+		m_CameraController.OnEvent(e);
 	}
-	bool OnMouseScroll(ES::Event& e)
-	{
-
-		ES::MouseScrolledEvent& kp = (ES::MouseScrolledEvent&)e;
-		m_CameraRotation += kp.GetYOffset() * 4;
-		return false;
-	}
+	
 	virtual void OnImGuiRender() override//gets called in application.cpp
 	{
 		ImGui::Begin("System Information");
@@ -146,7 +114,7 @@ private:
 	ES::Ref<ES::IndexBuffer> m_IndexBuffer;
 	ES::Ref<ES::VertexArray> m_SquareVA;
 	ES::Ref<ES::Texture2D> m_Texture, m_AlphaTexture;
-	ES::OrthographicCamera m_Camera;
+	ES::OrthographicCameraController m_CameraController;
 	ES::SystemInformation m_SystemInfo;
 	glm::vec3 m_CameraPosition;
 	glm::vec3 m_FlatColor = { 0.2f,0.5f,0.8f };

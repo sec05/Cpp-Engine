@@ -39,7 +39,7 @@ namespace ES {
 
 		m_Window = Scope<Window>(Window::Create());//makes the window
 		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
-		//m_Window->SetVSync(false);
+		m_Window->SetVSync(false);
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
 		Renderer::Init();

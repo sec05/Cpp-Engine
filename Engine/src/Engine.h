@@ -10,6 +10,7 @@
 
 #include "ES/Core/SystemInformation.h"
 #include "ES/Core/Timestep.h"
+#include "ES/Core/OrthographicCameraController.h"
 
 #include "ES/Events/KeyEvent.h"
 #include "ES/Events/ApplicationEvent.h"
