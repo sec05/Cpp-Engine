@@ -18,6 +18,7 @@
 //------Renderer---------------
 #include "ES/Renderer/Renderer.h"
 #include "ES/Renderer/RenderCommand.h"
+#include "ES/Renderer/Renderer2D.h"
 
 #include "ES/Renderer/Buffer.h"
 #include "ES/Renderer/VertexArray.h"

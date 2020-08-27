@@ -129,33 +129,6 @@
     <ClInclude Include="src\ES\Platform\Windows\WindowsWindow.h">
       <Filter>src\ES\Platform\Windows</Filter>
     </ClInclude>
-    <ClInclude Include="src\ES\Renderer\Buffer.h">
-      <Filter>src\ES\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ES\Renderer\GraphicsContext.h">
-      <Filter>src\ES\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ES\Renderer\OrthographicCamera.h">
-      <Filter>src\ES\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ES\Renderer\RenderCommand.h">
-      <Filter>src\ES\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ES\Renderer\Renderer.h">
-      <Filter>src\ES\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ES\Renderer\RendererAPI.h">
-      <Filter>src\ES\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ES\Renderer\Shader.h">
-      <Filter>src\ES\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ES\Renderer\Texture.h">
-      <Filter>src\ES\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ES\Renderer\VertexArray.h">
-      <Filter>src\ES\Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="src\Engine.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -1389,8 +1362,36 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
+    <ClInclude Include="src\ES\Renderer\Buffer.h">
+      <Filter>src\ES\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ES\Renderer\GraphicsContext.h">
+      <Filter>src\ES\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ES\Renderer\OrthographicCamera.h">
+      <Filter>src\ES\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\ES\Renderer\OrthographicCameraController.h">
       <Filter>src\ES\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ES\Renderer\RenderCommand.h">
+      <Filter>src\ES\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ES\Renderer\Renderer.h">
+      <Filter>src\ES\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ES\Renderer\Renderer2D.h" />
+    <ClInclude Include="src\ES\Renderer\RendererAPI.h">
+      <Filter>src\ES\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ES\Renderer\Shader.h">
+      <Filter>src\ES\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ES\Renderer\Texture.h">
+      <Filter>src\ES\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ES\Renderer\VertexArray.h">
+      <Filter>src\ES\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1436,11 +1437,20 @@
     <ClCompile Include="src\ES\Platform\Windows\WindowsWindow.cpp">
       <Filter>src\ES\Platform\Windows</Filter>
     </ClCompile>
+    <ClCompile Include="src\espch.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="vendor\stb_image\stb_image.cpp">
+      <Filter>vendor\stb_image</Filter>
+    </ClCompile>
     <ClCompile Include="src\ES\Renderer\Buffer.cpp">
       <Filter>src\ES\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\ES\Renderer\OrthographicCamera.cpp">
       <Filter>src\ES\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ES\Renderer\OrthographicCameraController.cpp">
+      <Filter>src\ES\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\ES\Renderer\RenderCommand.cpp">
       <Filter>src\ES\Renderer</Filter>
@@ -1448,6 +1458,7 @@
     <ClCompile Include="src\ES\Renderer\Renderer.cpp">
       <Filter>src\ES\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\ES\Renderer\Renderer2D.cpp" />
     <ClCompile Include="src\ES\Renderer\RendererAPI.cpp">
       <Filter>src\ES\Renderer</Filter>
     </ClCompile>
@@ -1459,15 +1470,6 @@
     </ClCompile>
     <ClCompile Include="src\ES\Renderer\VertexArray.cpp">
       <Filter>src\ES\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\espch.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="vendor\stb_image\stb_image.cpp">
-      <Filter>vendor\stb_image</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ES\Renderer\OrthographicCameraController.cpp">
-      <Filter>src\ES\Core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
