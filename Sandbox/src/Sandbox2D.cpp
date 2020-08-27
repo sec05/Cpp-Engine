@@ -3,7 +3,6 @@
 #include "imgui/imgui.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include "ES/Platform/OpenGL/OpenGLShader.h"
 Sandbox2D::Sandbox2D()
 	: Layer("Sandbox2D"), m_CameraController(1280.0f / 720.0f, true)
 {
@@ -30,8 +29,8 @@ void Sandbox2D::OnUpdate(ES::Timestep ts)
 	ES::Renderer2D::BeginScene(m_CameraController.GetCamera());
 	glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
-	ES::Renderer2D::DrawQaud({ 0.0f,0.0f }, { 1.0f,1.0f }, { 0.8f,0.6f,0.1f,1.0f });
-	
+	ES::Renderer2D::DrawQaud({ -3.0f,0.0f }, { 1.5f,0.8f }, { 0.2f,0.0f,0.9f,1.0f },90.0f);
+	ES::Renderer2D::DrawQaud({ 1.0f,0.0f }, { 4.0f,1.0f }, { 0.8f,0.6f,0.1f,1.0f },-90.0f);
 	ES::Renderer2D::EndScene();
 ;
 }

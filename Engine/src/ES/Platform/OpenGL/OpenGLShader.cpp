@@ -176,6 +176,21 @@ namespace ES
 		glUseProgram(0);
 	}
 
+	void OpenGLShader::SetFloat3(const std::string& name, const glm::vec3& value)//These exist because they are virtual from shader class for easy call without dynamic casting
+	{
+		UploadUniformFloat3(name, value);
+	}
+
+	void OpenGLShader::SetFloat4(const std::string& name, const glm::vec4& value)//These exist because they are virtual from shader class for easy call without dynamic casting
+	{
+		UploadUniformFloat4(name, value);
+	}
+
+	void OpenGLShader::SetMat4(const std::string& name, const glm::mat4& value)//These exist because they are virtual from shader class for easy call without dynamic casting
+	{
+		UploadUniformMat4(name, value);
+	}
+
 	void OpenGLShader::UploadUniformInt(const std::string& name, int value)
 	{
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
