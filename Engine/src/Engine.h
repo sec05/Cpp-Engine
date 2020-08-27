@@ -10,7 +10,7 @@
 
 #include "ES/Core/SystemInformation.h"
 #include "ES/Core/Timestep.h"
-#include "ES/Core/OrthographicCameraController.h"
+#include "ES/Renderer/OrthographicCameraController.h"
 
 #include "ES/Events/KeyEvent.h"
 #include "ES/Events/ApplicationEvent.h"
@@ -25,10 +25,6 @@
 #include "ES/Renderer/Texture.h"
 
 #include "ES/Renderer/OrthographicCamera.h"
-//-------------------------------
-
-//------Entry Point--------------
-#include "ES/Core/EntryPoint.h"
 //-------------------------------
 
 //------Input Codes---------------

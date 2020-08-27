@@ -149,7 +149,7 @@
     <ClInclude Include="src\ES\Core\LayerStack.h" />
     <ClInclude Include="src\ES\Core\Log.h" />
     <ClInclude Include="src\ES\Core\MouseButtonCodes.h" />
-    <ClInclude Include="src\ES\Core\OrthographicCameraController.h" />
+    <ClInclude Include="src\ES\Renderer\OrthographicCameraController.h" />
     <ClInclude Include="src\ES\Core\SystemInformation.h" />
     <ClInclude Include="src\ES\Core\Timestep.h" />
     <ClInclude Include="src\ES\Core\Window.h" />
@@ -592,7 +592,7 @@
     <ClCompile Include="src\ES\Core\Layer.cpp" />
     <ClCompile Include="src\ES\Core\LayerStack.cpp" />
     <ClCompile Include="src\ES\Core\Log.cpp" />
-    <ClCompile Include="src\ES\Core\OrthographicCameraController.cpp" />
+    <ClCompile Include="src\ES\Renderer\OrthographicCameraController.cpp" />
     <ClCompile Include="src\ES\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\ES\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\ES\Platform\OpenGL\OpenGLBuffer.cpp" />

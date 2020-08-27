@@ -1,15 +1,17 @@
 #include "Engine.h"
+#include <ES/Core/EntryPoint.h>
 #include "imgui/imgui.h"
-#include <glm/gtc/matrix_transform.hpp>
 #include "ES/Platform/OpenGL/OpenGLShader.h"
+#include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "Sandbox2D.h"
 class ExampleLayer : public ES::Layer
 {
 public:
 	ExampleLayer()
-		: Layer("Example"), m_CameraController(1920.0f/1080.0f, true), m_CameraPosition(0.0f)
+		: Layer("Example"), m_CameraController(1280.0f/720.0f, true), m_CameraPosition(0.0f)
 	{
-		m_VertexArray.reset(ES::VertexArray::Create());
+		m_VertexArray = (ES::VertexArray::Create());
 		float vertices[3 * 7] = {//screen right now is -1 to 1 because there is no projection matrix
 			-0.5f, -0.5f, 0.0f, 0.8f, 0.2f, 0.8f, 1.0f,
 			 0.5f, -0.5f, 0.0f, 0.2f, 0.3f, 0.8f, 1.0f,
@@ -27,7 +29,7 @@ public:
 		uint32_t indicies[3] = { 0,1,2, };
 		m_IndexBuffer.reset(ES::IndexBuffer::Create(indicies, sizeof(indicies) / sizeof(uint32_t)));
 		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
-		m_SquareVA.reset(ES::VertexArray::Create());
+		m_SquareVA = (ES::VertexArray::Create());
 		float SQvertices[5 * 4] = {//screen right now is -1 to 1 because there is no projection matrix
 			-0.5f, -0.5f, 0.0f,0.0f,0.0f,//bottom left of square is 0,0 top right is 1,1 for tex coords
 			 0.5f, -0.5f, 0.0f, 1.0f,0.0f,
@@ -139,8 +141,8 @@ class Sandbox : public ES::Application
 public:
 	Sandbox()
 	{
-		PushLayer(new ExampleLayer());
-		
+		//PushLayer(new ExampleLayer());
+		PushLayer(new Sandbox2D());
 	}
 	~Sandbox()
 	{
