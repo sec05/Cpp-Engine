@@ -4,29 +4,33 @@
 #include "ES/Core/KeyCodes.h"
 namespace ES
 {
-	OrthographicCameraController::OrthographicCameraController(float aspectRatio, bool rotation)
-		:m_AspectRatio(aspectRatio),m_Rotation(rotation), m_Camera(-m_AspectRatio* m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel) //aspectratio*zoom gives you x values and zoom is the y value
+	OrthographicCameraController::OrthographicCameraController(float aspectRatio, bool rotation, bool movement)
+		:m_AspectRatio(aspectRatio),m_Rotation(rotation), m_Movement(movement),m_Camera(-m_AspectRatio* m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel) //aspectratio*zoom gives you x values and zoom is the y value
     {
 
     }
-    void OrthographicCameraController::OnUpdate(Timestep ts)
-    {
-		if (Input::IsKeyPressed(ES_KEY_W))
+	void OrthographicCameraController::OnUpdate(Timestep ts)
+	{
+		if (m_Movement)
 		{
-			m_CameraPosition.y += m_CameraTransalationSpeed * ts;
+			if (Input::IsKeyPressed(ES_KEY_W))
+			{
+				m_CameraPosition.y += m_CameraTransalationSpeed * ts;
+			}
+			if (Input::IsKeyPressed(ES_KEY_A))
+			{
+				m_CameraPosition.x -= m_CameraTransalationSpeed * ts;
+			}
+			if (Input::IsKeyPressed(ES_KEY_S))
+			{
+				m_CameraPosition.y -= m_CameraTransalationSpeed * ts;
+			}
+			if (Input::IsKeyPressed(ES_KEY_D))
+			{
+				m_CameraPosition.x += m_CameraTransalationSpeed * ts;
+			}
 		}
-		if (Input::IsKeyPressed(ES_KEY_A))
-		{
-			m_CameraPosition.x -= m_CameraTransalationSpeed * ts;
-		}
-		if (Input::IsKeyPressed(ES_KEY_S))
-		{
-			m_CameraPosition.y -= m_CameraTransalationSpeed * ts;
-		}
-		if (Input::IsKeyPressed(ES_KEY_D))
-		{
-			m_CameraPosition.x += m_CameraTransalationSpeed * ts;
-		}
+		
 		if (Input::IsKeyPressed(ES_KEY_R))
 		{
 			m_CameraPosition.x = 0.0f;

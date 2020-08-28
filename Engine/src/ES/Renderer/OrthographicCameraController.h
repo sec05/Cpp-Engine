@@ -8,7 +8,7 @@ namespace ES {
 	class OrthographicCameraController
 	{
 	public:
-		OrthographicCameraController(float aspectRatio, bool rotation = false);
+		OrthographicCameraController(float aspectRatio, bool rotation = false, bool movement = false);
 
 		void OnUpdate(Timestep ts);
 		void OnEvent(Event& e);
@@ -25,6 +25,7 @@ namespace ES {
 
 	private:
 		bool m_Rotation;
+		bool m_Movement;
 		float m_AspectRatio;
 		float m_ZoomLevel = 1.0f;
 		float m_CameraRotation = 0.0f;

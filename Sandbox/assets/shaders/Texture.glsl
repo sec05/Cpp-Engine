@@ -25,5 +25,6 @@
 			{
 				
 				color = texture(u_Texture,v_TexCoords);
+				
 			} 
 			
