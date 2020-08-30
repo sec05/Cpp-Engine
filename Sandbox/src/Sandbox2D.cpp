@@ -17,9 +17,11 @@ void Sandbox2D::OnDetach()
 {
 	ES::Renderer2D::Shutdown();
 }
-
+float alpha = 1.0f;
 void Sandbox2D::OnUpdate(ES::Timestep ts)
 {
+
+	ES_TRACE("{0}", alpha);
 	m_CameraController.OnUpdate(ts);
 	fps = 1.0f / ts;
 
@@ -33,7 +35,7 @@ void Sandbox2D::OnUpdate(ES::Timestep ts)
 	ES::Renderer2D::DrawQaud({ -1.0f,0.0f }, { 1.5f,0.8f }, { 0.2f,0.0f,0.9f,1.0f });
 	ES::Renderer2D::DrawQaud({ 1.0f,0.0f }, { 2.0f,1.0f }, { 0.8f,0.6f,0.1f,1.0f });
 	
-	ES::Renderer2D::DrawQaud({ 0.0f,0.0f,-0.1f }, { 3.0f,3.0f }, m_Woody);
+	ES::Renderer2D::DrawQaud({ 0.0f,0.0f,-0.1f }, { 3.0f,3.0f }, m_Woody,0.0f, {1.0f,1.0f,1.0f,alpha});
 	ES::Renderer2D::DrawTriangle({ 0.0f,0.0f,0.1f }, { 1.5f,2.0f}, { 0.2,0.8f,0.9f,1.0f });
 	ES::Renderer2D::EndScene();
 ;

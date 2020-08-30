@@ -11,9 +11,8 @@ namespace ES
 	{
 		Ref<VertexArray> TriVertexArray;
 		Ref<VertexArray> QuadVertexArray;
-		Ref<Shader> FlatColorShader;
 		Ref<Shader> TextureShader;
-		
+		Ref<Texture2D> Whitetexture;
 	};
 	static Renderer2DStorage* s_Data;
 	void Renderer2D::Init()
@@ -41,7 +40,9 @@ namespace ES
 		Ref<IndexBuffer> SquareIB;
 		SquareIB.reset(IndexBuffer::Create(squareIndicies, sizeof(squareIndicies) / sizeof(uint32_t)));
 		s_Data->QuadVertexArray->SetIndexBuffer(SquareIB);
-
+		s_Data->Whitetexture = Texture2D::Create(1, 1);
+		uint32_t whiteTextureData = 0xffffffff;
+		s_Data->Whitetexture->SetData(&whiteTextureData, sizeof(uint32_t));
 		float TriVertices[3 * 3] = {
 			-0.5f, -0.5f, 0.0f,
 			 0.5f, -0.5f, 0.0f,
@@ -59,7 +60,7 @@ namespace ES
 		TriangleIB.reset(IndexBuffer::Create(triangleIndicies, sizeof(triangleIndicies) / sizeof(uint32_t)));
 		s_Data->TriVertexArray->SetIndexBuffer(TriangleIB);
 		
-		s_Data->FlatColorShader = Shader::Create("assets/shaders/FlatColorShader.glsl");
+		
 		s_Data->TextureShader = Shader::Create("assets/shaders/Texture.glsl");
 		s_Data->TextureShader->SetInt("u_Texture", 0);//samples from texture slot 0
 	}
@@ -69,8 +70,7 @@ namespace ES
 	}
 	void Renderer2D::BeginScene(const OrthographicCamera& camera)
 	{
-		s_Data->FlatColorShader->Bind();
-		s_Data->FlatColorShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
+		
 		s_Data->TextureShader->Bind();
 		s_Data->TextureShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
 
@@ -85,10 +85,10 @@ namespace ES
 	}
 	void Renderer2D::DrawTriangle(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color, const float& rotation)
 	{
-		s_Data->FlatColorShader->Bind();
-		s_Data->FlatColorShader->SetFloat4("u_Color", color);
+		s_Data->TextureShader->SetFloat4("u_Color", color);
+		s_Data->Whitetexture->Bind();
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0, 0, 1)) * glm::scale(glm::mat4(1.0f), { size.x,size.y,1.0f });
-		s_Data->FlatColorShader->SetMat4("u_Transform", transform);
+		s_Data->TextureShader->SetMat4("u_Transform", transform);
 		s_Data->TriVertexArray->Bind();
 		RenderCommand::DrawIndexed(s_Data->TriVertexArray);
 	}
@@ -98,19 +98,21 @@ namespace ES
 	}
 	void Renderer2D::DrawQaud(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color, const float& rotation)
 	{
-		s_Data->FlatColorShader->Bind();
-		s_Data->FlatColorShader->SetFloat4("u_Color", color);
+		
+		s_Data->TextureShader->SetFloat4("u_Color", color);
+		s_Data->Whitetexture->Bind();
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *glm::rotate(glm::mat4(1.0f),glm::radians(rotation),glm::vec3(0,0,1))* glm::scale(glm::mat4(1.0f), {size.x,size.y,1.0f});
-		s_Data->FlatColorShader->SetMat4("u_Transform", transform);
+		s_Data->TextureShader->SetMat4("u_Transform", transform);
 		s_Data->QuadVertexArray->Bind();
 		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
 	}
-	void Renderer2D::DrawQaud(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture, const float& rotation)
+	void Renderer2D::DrawQaud(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture, const float& rotation, const glm::vec4& filter)
 	{
 		DrawQaud({ position.x,position.y,0.0f }, size, texture, rotation);
 	}
-	void Renderer2D::DrawQaud(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture, const float& rotation)
+	void Renderer2D::DrawQaud(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture, const float& rotation, const glm::vec4& filter)
 	{
+		s_Data->TextureShader->SetFloat4("u_Color", filter);
 		s_Data->TextureShader->Bind();
 		
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0, 0, 1)) * glm::scale(glm::mat4(1.0f), { size.x,size.y,1.0f });
