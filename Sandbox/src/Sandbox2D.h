@@ -20,4 +20,6 @@ private:
 	float fps;
 	ES::SystemInformation m_SystemInfo;
 	glm::vec4 m_SquareColor = { 0.1f, 0.3f, 0.9f,1.0f };
+	
+	
 };

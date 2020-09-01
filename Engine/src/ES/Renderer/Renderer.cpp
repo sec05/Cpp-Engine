@@ -7,7 +7,9 @@ namespace ES
 	Renderer::SceneData* Renderer:: m_SceneData = new Renderer::SceneData;
 
 	void Renderer::Init()
-	{
+		
+	{	
+		ES_PROFILE_FUNCTION();
 		RenderCommand::Init();
 		Renderer2D::Init();
 	}
@@ -24,6 +26,11 @@ namespace ES
 
 	void Renderer::EndScene()
 	{
+	}
+
+	void Renderer::Shutdown()
+	{
+		Renderer2D::Shutdown();
 	}
 
 	void Renderer::Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, const glm::mat4& transform)

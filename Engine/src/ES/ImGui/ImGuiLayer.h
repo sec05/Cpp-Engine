@@ -14,7 +14,6 @@ namespace ES
 
 		virtual void OnAttach() override;
 		virtual void OnDetach() override;
-		virtual void OnImGuiRender() override;//where we draw stuff
 		
 		void Begin();//we want layers to be able to render there own imgui controls
 		void End();

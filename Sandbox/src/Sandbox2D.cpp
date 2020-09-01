@@ -3,6 +3,8 @@
 #include "imgui/imgui.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <chrono>
+
 Sandbox2D::Sandbox2D()
 	: Layer("Sandbox2D"), m_CameraController(1280.0f / 720.0f, true, true)
 {
@@ -10,46 +12,58 @@ Sandbox2D::Sandbox2D()
 }
 void Sandbox2D::OnAttach()
 {
+	ES_PROFILE_FUNCTION();
 	m_Woody = ES::Texture2D::Create("assets/textures/woody.png");
 }
 
 void Sandbox2D::OnDetach()
 {
+	ES_PROFILE_FUNCTION();
 	ES::Renderer2D::Shutdown();
 }
-float alpha = 1.0f;
+
 void Sandbox2D::OnUpdate(ES::Timestep ts)
 {
 
-	ES_TRACE("{0}", alpha);
-	m_CameraController.OnUpdate(ts);
+		m_CameraController.OnUpdate(ts);
+	
+	
 	fps = 1.0f / ts;
 
 	m_CameraController.OnUpdate(ts);
 
-	ES::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
-	ES::RenderCommand::Clear();
+	{
+		ES_PROFILE_SCOPE("Renderer Prep");
+		ES::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
+		ES::RenderCommand::Clear();
+	}
+	{
+		ES_PROFILE_SCOPE("Renderer Draw");
 	ES::Renderer2D::BeginScene(m_CameraController.GetCamera());
 	glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
 	ES::Renderer2D::DrawQaud({ -1.0f,0.0f }, { 1.5f,0.8f }, { 0.2f,0.0f,0.9f,1.0f });
 	ES::Renderer2D::DrawQaud({ 1.0f,0.0f }, { 2.0f,1.0f }, { 0.8f,0.6f,0.1f,1.0f });
 	
-	ES::Renderer2D::DrawQaud({ 0.0f,0.0f,-0.1f }, { 3.0f,3.0f }, m_Woody,0.0f, {1.0f,1.0f,1.0f,alpha});
+	ES::Renderer2D::DrawQaud({ 0.0f,0.0f,-0.1f }, { 3.0f,3.0f }, m_Woody);
 	ES::Renderer2D::DrawTriangle({ 0.0f,0.0f,0.1f }, { 1.5f,2.0f}, { 0.2,0.8f,0.9f,1.0f });
 	ES::Renderer2D::EndScene();
+	}
+	
 ;
 }
 
 void Sandbox2D::OnImGuiRender() 
 {
+	ES_PROFILE_FUNCTION();
 	ImGui::Begin("System Information");
-	ImGui::Text("FPS: %f", floor(fps));
+	
 	ImGui::Text("Vendor: %s", m_SystemInfo.GetVendor());
 	ImGui::Text("Renderer: %s", m_SystemInfo.GetRenderer());
 	ImGui::Text("Version: %s", m_SystemInfo.GetVersion());
+	ImGui::Text("%.0f FPS", floor(fps));
+	
 	ImGui::End();
-
 }
 
 void Sandbox2D::OnEvent(ES::Event& e)

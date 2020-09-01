@@ -17,6 +17,7 @@ namespace ES
 	static Renderer2DStorage* s_Data;
 	void Renderer2D::Init()
 	{
+		ES_PROFILE_FUNCTION();
 		s_Data = new Renderer2DStorage();
 		s_Data->QuadVertexArray = VertexArray::Create();
 		s_Data->TriVertexArray = VertexArray::Create();
@@ -66,11 +67,12 @@ namespace ES
 	}
 	void Renderer2D::Shutdown()
 	{
+		ES_PROFILE_FUNCTION();
 		delete s_Data;
 	}
 	void Renderer2D::BeginScene(const OrthographicCamera& camera)
 	{
-		
+		ES_PROFILE_FUNCTION();
 		s_Data->TextureShader->Bind();
 		s_Data->TextureShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
 
@@ -78,13 +80,16 @@ namespace ES
 	}
 	void Renderer2D::EndScene()
 	{
+		ES_PROFILE_FUNCTION();
 	}
 	void Renderer2D::DrawTriangle(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color, const float& rotation)
 	{
+
 		DrawTriangle({ position.x,position.y,0.0f }, size, color, rotation);
 	}
 	void Renderer2D::DrawTriangle(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color, const float& rotation)
 	{
+		ES_PROFILE_FUNCTION();
 		s_Data->TextureShader->SetFloat4("u_Color", color);
 		s_Data->Whitetexture->Bind();
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0, 0, 1)) * glm::scale(glm::mat4(1.0f), { size.x,size.y,1.0f });
@@ -94,11 +99,12 @@ namespace ES
 	}
 	void Renderer2D::DrawQaud(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color, const float& rotation)
 	{
+
 		DrawQaud({ position.x,position.y, 0.0f }, size, color,rotation);
 	}
 	void Renderer2D::DrawQaud(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color, const float& rotation)
 	{
-		
+		ES_PROFILE_FUNCTION();
 		s_Data->TextureShader->SetFloat4("u_Color", color);
 		s_Data->Whitetexture->Bind();
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *glm::rotate(glm::mat4(1.0f),glm::radians(rotation),glm::vec3(0,0,1))* glm::scale(glm::mat4(1.0f), {size.x,size.y,1.0f});
@@ -112,6 +118,7 @@ namespace ES
 	}
 	void Renderer2D::DrawQaud(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture, const float& rotation, const glm::vec4& filter)
 	{
+		ES_PROFILE_FUNCTION();
 		s_Data->TextureShader->SetFloat4("u_Color", filter);
 		s_Data->TextureShader->Bind();
 		

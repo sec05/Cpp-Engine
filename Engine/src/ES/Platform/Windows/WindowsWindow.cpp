@@ -22,6 +22,7 @@ namespace ES
 
 	WindowsWindow::WindowsWindow(const WindowProps& props)
 	{
+		ES_PROFILE_FUNCTION();
 		Init(props);
 	}
 
@@ -42,6 +43,7 @@ namespace ES
 
 		if (!s_GLFWInitialized)//if glfw fails
 		{
+			ES_PROFILE_FUNCTION();
 			int sucess = glfwInit();
 			ES_CORE_ASSERT(sucess, "Could not init GLFW!");
 			glfwSetErrorCallback(GLFWErrorCallback);
@@ -150,16 +152,20 @@ namespace ES
 
 	void WindowsWindow::Shutdown()
 	{
+		ES_PROFILE_FUNCTION();
 		glfwDestroyWindow(m_Window);
+		
 	}
 	void WindowsWindow::OnUpdate()
 	{
+		ES_PROFILE_FUNCTION();
 		glfwPollEvents();
 		m_Context->SwapBuffers();
 		//glfwSwapBuffers(m_Window);//waits amount of windows before swapping buffers
 	}
 	void WindowsWindow::SetVSync(bool enabled)
 	{
+		ES_PROFILE_FUNCTION();
 		if (enabled)
 
 			glfwSwapInterval(1);//vsync

@@ -22,6 +22,7 @@ namespace ES
 
 	OpenGLShader::OpenGLShader(const std::string& filepath)
 	{
+		ES_PROFILE_FUNCTION();
 		std::string ShaderSrc = ReadFile(filepath);
 		auto shaderSources = PreProcess(ShaderSrc);
 		Compile(shaderSources);
@@ -37,6 +38,7 @@ namespace ES
 	OpenGLShader::OpenGLShader(const std::string& name,const std::string& vertexSrc, const std::string& fragmentSrc)
 		: m_Name(name)
 	{
+		ES_PROFILE_FUNCTION();
 		std::unordered_map<GLenum, std::string> sources;
 		sources[GL_VERTEX_SHADER] = vertexSrc;
 		sources[GL_FRAGMENT_SHADER] = fragmentSrc;
@@ -44,11 +46,12 @@ namespace ES
 	}
 	OpenGLShader::~OpenGLShader()
 	{
+		ES_PROFILE_FUNCTION();
 		glDeleteProgram(m_RendererID);
 	}
 	std::string OpenGLShader::ReadFile(const std::string& filepath)
 	{
-
+		ES_PROFILE_FUNCTION();
 		std::string result;
 		std::ifstream in(filepath, std::ios::in | std::ios::binary);
 		if (in)
@@ -68,6 +71,7 @@ namespace ES
 	}
 	std::unordered_map<GLenum, std::string> OpenGLShader::PreProcess(const std::string& source)
 	{
+		ES_PROFILE_FUNCTION();
 		std::unordered_map<GLenum, std::string> shaderSources;
 
 		const char* typeToken = "#type";//after that keyword there's the type of shader
@@ -91,6 +95,7 @@ namespace ES
 	void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shaderSources)
 	{
 
+		ES_PROFILE_FUNCTION();
 		GLuint program = glCreateProgram();
 		ES_CORE_ASSERT(shaderSources.size() <= 2, "Engine only supports 2 shaders!");
 		std::array<GLenum, 2> glShaderIDs;
@@ -169,30 +174,36 @@ namespace ES
 
 	void OpenGLShader::Bind() const
 	{
+		ES_PROFILE_FUNCTION();
 		glUseProgram(m_RendererID);
 	}
 	void OpenGLShader::UnBind() const
 	{
+		ES_PROFILE_FUNCTION();
 		glUseProgram(0);
 	}
 
 	void OpenGLShader::SetInt(const std::string& name, int value)
 	{
+		ES_PROFILE_FUNCTION();
 		UploadUniformInt(name, value);
 	}
 
 	void OpenGLShader::SetFloat3(const std::string& name, const glm::vec3& value)//These exist because they are virtual from shader class for easy call without dynamic casting
 	{
+		ES_PROFILE_FUNCTION();
 		UploadUniformFloat3(name, value);
 	}
 
 	void OpenGLShader::SetFloat4(const std::string& name, const glm::vec4& value)//These exist because they are virtual from shader class for easy call without dynamic casting
 	{
+		ES_PROFILE_FUNCTION();
 		UploadUniformFloat4(name, value);
 	}
 
 	void OpenGLShader::SetMat4(const std::string& name, const glm::mat4& value)//These exist because they are virtual from shader class for easy call without dynamic casting
 	{
+		ES_PROFILE_FUNCTION();
 		UploadUniformMat4(name, value);
 	}
 

@@ -2,6 +2,9 @@
 .vs/
 bin/
 bin-int/
-
+Sandbox/ESProfile-Runtime.json
+Sandbox/ESProfile-Shutdown.json
+Sandbox/ESProfile-Startup.json
+Sandbox/imgui.ini
 #files
 *.user
